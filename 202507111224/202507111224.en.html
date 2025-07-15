@@ -66,17 +66,13 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
-  <!-- Transparent navigation bar -->
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
     <div class="container mx-auto px-4 py-3">
-      <!-- Left: House icon + Author's avatar and nickname -->
       <div class="flex items-center space-x-7">
-        <!-- House icon link -->
         <a href="https://xfchd090909.github.io/aifenxiang/" class="text-white/70 hover:text-white transition-colors">
           <i class="fa fa-home fa-lg"></i>
         </a>
         
-        <!-- Author's avatar and nickname -->
         <div class="flex items-center space-x-3">
           <div class="w-10 h-10 rounded-full bg-white/20 overflow-hidden border border-white/30">
             <img src="https://raw.githubusercontent.com/xfchd090909/aifenxiang/main/avatar/mmexport1749912260190.jpg" alt="Author's avatar" class="w-full h-full object-cover">
@@ -90,7 +86,6 @@
 <main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16">
   <div class="max-w-7xl w-full px-4 sm:px-6 lg:px-8">
     <div class="article-container bg-transparent rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
-      <!-- Article header -->
       <div class="relative h-64 md:h-80 lg:h-96 overflow-hidden rounded-2xl shadow-lg">
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
         <img src="202507111627.jpg" alt="X Platform" class="w-full h-full object-cover">
@@ -102,7 +97,6 @@
         </div>
       </div>
       
-      <!-- Article content -->
       <div class="article-content max-w-4xl mx-auto px-6 py-12 md:px-12 md:py-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-6">
         <div class="prose prose-lg max-w-none">
           <p class="lead text-xl text-gray-700 mb-8">
@@ -149,7 +143,7 @@
           </div>
         </div>
       </div>
-      <!-- Share button -->
+
       <div class="flex justify-center mt-8">
         <button id="shareBtn" class="bg-primary text-white py-2 px-4 rounded-md hover:bg-accent transition-colors">
           <i class="fa fa-share-alt"></i> Share
@@ -159,7 +153,7 @@
   </div>
 </main>
 
-  <!-- Footer -->
+
   <footer class="py-8 px-4 bg-black/20 text-center">
     <div class="container mx-auto">
       <p class="text-lg mb-2">2025 aifenxiang</p>
@@ -167,7 +161,7 @@
       <button id="emailBtn" class="text-white/80 hover:text-white transition-colors">
         <i class="fa fa-envelope-o text-xl"></i>
       </button>
-      <!-- Language -->
+
       <div class="mt-4">
         <a href="202507111224.en.html" class="text-white/80 hover:text-white transition-colors mx-2">English</a>
         <span class="text-white/80">|</span>
@@ -176,7 +170,6 @@
     </div>
   </footer>
 
-  <!-- Email popup -->
   <div id="emailModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/50" id="modalOverlay"></div>
     <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="modalContent">
@@ -197,7 +190,6 @@
     </div>
   </div>
 
-  <!-- Share popup -->
   <div id="shareModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/50" id="shareModalOverlay"></div>
     <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="shareModalContent">
@@ -230,7 +222,6 @@
     </div>
   </div>
 
-  <!-- Copy link success popup -->
   <div id="copySuccessModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/50" id="copySuccessModalOverlay"></div>
     <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="copySuccessModalContent">
@@ -243,7 +234,7 @@
   </div>
 
   <script>
-    // Navigation bar scroll effect
+    
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 50) {
@@ -255,7 +246,7 @@
       }
     });
 
-    // Email popup function
+
     const emailBtn = document.getElementById('emailBtn');
     const emailModal = document.getElementById('emailModal');
     const modalContent = document.getElementById('modalContent');
@@ -284,14 +275,12 @@
     closeModal.addEventListener('click', closeModalFunc);
     modalOverlay.addEventListener('click', closeModalFunc);
 
-    // Close the popup by pressing the ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
         closeModalFunc();
       }
     });
 
-    // Share popup function
     const shareBtn = document.getElementById('shareBtn');
     const shareModal = document.getElementById('shareModal');
     const shareModalContent = document.getElementById('shareModalContent');
@@ -320,7 +309,6 @@
     closeShareModal.addEventListener('click', closeShareModalFunc);
     shareModalOverlay.addEventListener('click', closeShareModalFunc);
 
-    // Copy link function
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const copySuccessModal = document.getElementById('copySuccessModal');
     const copySuccessModalContent = document.getElementById('copySuccessModalContent');
@@ -357,7 +345,6 @@
     closeCopySuccessModal.addEventListener('click', closeCopySuccessModalFunc);
     copySuccessModalOverlay.addEventListener('click', closeCopySuccessModalFunc);
 
-    // Close the share popup and copy success popup by pressing the ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !shareModal.classList.contains('opacity-0')) {
         closeShareModalFunc();
