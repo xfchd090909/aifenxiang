@@ -87,6 +87,7 @@
         display: flex;
         gap: 0;
         align-items: center;
+        justify-content: center;
       }
       .action-btn-container.active {
         gap: 10px;
@@ -144,6 +145,16 @@
     .bg-overlay.active {
       opacity: 1;
     }
+    
+    /* 响应式调整 */
+    @media (max-width: 640px) {
+      .action-btn span {
+        display: none;
+      }
+      .action-btn {
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
@@ -173,9 +184,9 @@
       </div>
     </div>
     
-    <!-- 修改后的按钮容器 -->
+    <!-- 按钮容器 -->
     <div class="flex justify-center mt-2 mb-3">
-      <div class="action-btn-container flex items-center" id="bgActionContainer">
+      <div class="action-btn-container" id="bgActionContainer">
         <!-- 新添加的两个按钮 -->
         <button id="viewBgBtn" class="action-btn z-40 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
           <i class="fa fa-eye"></i>
@@ -307,11 +318,8 @@
       randomBgBtn.innerHTML = '<div class="loader"></div>';
       randomBgBtn.disabled = true;
       
-      // 生成带时间戳的URL避免缓存
-      const apiUrl = `https://www.loliapi.com/acg/?_t=${Date.now()}`;
-      
-      // 设置当前背景URL
-      currentBgUrl = apiUrl;
+      // 直接使用API地址（无参数）
+      const apiUrl = 'https://www.loliapi.com/acg/';
       
       // 创建临时图片测试链接有效性
       const testImg = new Image();
@@ -330,6 +338,9 @@
           // 恢复按钮
           randomBgBtn.innerHTML = originalBtnHTML;
           randomBgBtn.disabled = false;
+          
+          // 设置当前背景URL
+          currentBgUrl = apiUrl;
           
           // 显示操作按钮
           setTimeout(() => {
