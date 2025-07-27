@@ -310,6 +310,9 @@
       // 生成带时间戳的URL避免缓存
       const apiUrl = `https://www.loliapi.com/acg/?t=${Date.now()}`;
       
+      // 设置当前背景URL
+      currentBgUrl = apiUrl;
+      
       // 创建临时图片测试链接有效性
       const testImg = new Image();
       testImg.onload = function() {
@@ -327,9 +330,6 @@
           // 恢复按钮
           randomBgBtn.innerHTML = originalBtnHTML;
           randomBgBtn.disabled = false;
-          
-          // 设置当前背景URL
-          currentBgUrl = apiUrl;
           
           // 显示操作按钮
           setTimeout(() => {
