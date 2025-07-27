@@ -18,6 +18,20 @@
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
           },
+          animation: {
+            'fade-in': 'fadeIn 0.8s ease-in forwards',
+            'fade-out': 'fadeOut 0.8s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            fadeOut: {
+              '0%': { opacity: 1 },
+              '100%': { opacity: 0 }
+            }
+          }
         },
       }
     }
@@ -51,6 +65,32 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       }
+      .bg-anime-image {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        transition: background-image 0.8s ease-in-out;
+      }
+      
+      /* 新按钮动画 */
+      .action-btn {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: scale(0);
+        opacity: 0;
+      }
+      .action-btn.show {
+        transform: scale(1);
+        opacity: 1;
+      }
+      .action-btn-container {
+        display: flex;
+        gap: 0;
+        align-items: center;
+      }
+      .action-btn-container.active {
+        gap: 10px;
+      }
     }
 
     @keyframes gradient {
@@ -70,34 +110,92 @@
       40% { transform: perspective(800px) rotateY(20deg); }
       100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
     }
+    
+    /* 背景加载指示器 */
+    .loader {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* 背景覆盖层用于平滑过渡 */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+    
+    .bg-overlay.active {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
+  <!-- 背景覆盖层用于平滑过渡 -->
+  <div id="bgOverlay" class="bg-overlay"></div>
+  
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
-  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <a href="https://aeafx.dpdns.org/" class="text-white/70 hover:text-white transition-colors mr-4">
-        <i class="fa fa-home fa-lg"></i>
-      </a>
-
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-full bg-white/20 overflow-hidden border border-white/30">
-          <img src="avatar/mmexport1749912260190.jpg" alt="作者头像" class="w-full h-full object-cover">
+        <a href="https://aeafx.dpdns.org/" class="text-white/70 hover:text-white transition-colors mr-4">
+          <i class="fa fa-home fa-lg"></i>
+        </a>
+
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 overflow-hidden border border-white/30">
+            <img src="avatar/mmexport1749912260190.jpg" alt="作者头像" class="w-full h-full object-cover">
+          </div>
+          <span class="text-lg font-semibold text-shadow">Æ</span>
         </div>
-        <span class="text-lg font-semibold text-shadow">Æ</span>
+      </div>
+      
+      <div class="relative w-64 md:w-80">
+        <input type="text" id="searchInput" placeholder="搜索文章、标签..." class="w-full py-2 px-4 pr-10 rounded-full bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm transition-all">
+        <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors">
+          <i class="fa fa-search"></i>
+        </button>
       </div>
     </div>
     
-    <div class="relative w-64 md:w-80">
-      <input type="text" id="searchInput" placeholder="搜索文章、标签..." class="w-full py-2 px-4 pr-10 rounded-full bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm transition-all">
-      <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors">
-        <i class="fa fa-search"></i>
-      </button>
+    <!-- 修改后的按钮容器 -->
+    <div class="flex justify-center mt-2 mb-3">
+      <div class="action-btn-container flex items-center" id="bgActionContainer">
+        <!-- 新添加的两个按钮 -->
+        <button id="viewBgBtn" class="action-btn z-40 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+          <i class="fa fa-eye"></i>
+          <span class="hidden sm:inline">查看背景</span>
+        </button>
+        
+        <button id="randomBgBtn" class="z-40 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-2 px-5 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+          <i class="fa fa-image"></i>
+          <span>随机二次元背景</span>
+        </button>
+        
+        <button id="saveBgBtn" class="action-btn z-40 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+          <i class="fa fa-download"></i>
+          <span class="hidden sm:inline">保存背景</span>
+        </button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-  <main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16" id="mainContent">
+  <main class="min-h-screen flex flex-col items-center justify-center pt-32 pb-16" id="mainContent">
     <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 text-center text-shadow tracking-tight">
       爱分享
     </h1>
@@ -192,6 +290,114 @@
   </div>
 
   <script>
+    // 背景图片功能
+    const randomBgBtn = document.getElementById('randomBgBtn');
+    const bgOverlay = document.getElementById('bgOverlay');
+    const viewBgBtn = document.getElementById('viewBgBtn');
+    const saveBgBtn = document.getElementById('saveBgBtn');
+    const bgActionContainer = document.getElementById('bgActionContainer');
+    
+    // 当前背景图片URL
+    let currentBgUrl = '';
+    
+    // 获取并设置背景图片
+    function setRandomBackground() {
+      // 添加加载动画
+      const originalBtnHTML = randomBgBtn.innerHTML;
+      randomBgBtn.innerHTML = '<div class="loader"></div>';
+      randomBgBtn.disabled = true;
+      
+      // 生成带时间戳的URL避免缓存
+      const apiUrl = `https://www.loliapi.com/acg/?t=${Date.now()}`;
+      
+      // 创建临时图片测试链接有效性
+      const testImg = new Image();
+      testImg.onload = function() {
+        // 使用覆盖层进行平滑过渡
+        bgOverlay.style.backgroundImage = `url(${apiUrl})`;
+        bgOverlay.classList.add('active');
+        
+        // 设置主背景
+        setTimeout(() => {
+          document.body.classList.remove('bg-gradient-dynamic');
+          document.body.classList.add('bg-anime-image');
+          document.body.style.backgroundImage = `url(${apiUrl})`;
+          bgOverlay.classList.remove('active');
+          
+          // 恢复按钮
+          randomBgBtn.innerHTML = originalBtnHTML;
+          randomBgBtn.disabled = false;
+          
+          // 设置当前背景URL
+          currentBgUrl = apiUrl;
+          
+          // 显示操作按钮
+          setTimeout(() => {
+            bgActionContainer.classList.add('active');
+            viewBgBtn.classList.add('show');
+            saveBgBtn.classList.add('show');
+          }, 300);
+        }, 800);
+        
+        // 保存到sessionStorage中
+        sessionStorage.setItem('animeBackground', apiUrl);
+      };
+      
+      testImg.onerror = function() {
+        alert('获取背景图片失败，请重试');
+        randomBgBtn.innerHTML = originalBtnHTML;
+        randomBgBtn.disabled = false;
+      };
+      
+      testImg.src = apiUrl;
+    }
+    
+    // 查看背景图片
+    viewBgBtn.addEventListener('click', function() {
+      if (currentBgUrl) {
+        window.open(currentBgUrl, '_blank');
+      } else {
+        alert('请先获取背景图片');
+      }
+    });
+    
+    // 保存背景图片
+    saveBgBtn.addEventListener('click', function() {
+      if (currentBgUrl) {
+        // 创建临时链接下载
+        const link = document.createElement('a');
+        link.href = currentBgUrl;
+        link.download = `二次元背景_${Date.now()}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert('请先获取背景图片');
+      }
+    });
+    
+    // 页面加载时检查是否有保存的背景
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedBg = sessionStorage.getItem('animeBackground');
+      if (savedBg) {
+        document.body.classList.remove('bg-gradient-dynamic');
+        document.body.classList.add('bg-anime-image');
+        document.body.style.backgroundImage = `url(${savedBg})`;
+        currentBgUrl = savedBg;
+        
+        // 显示操作按钮
+        setTimeout(() => {
+          bgActionContainer.classList.add('active');
+          viewBgBtn.classList.add('show');
+          saveBgBtn.classList.add('show');
+        }, 300);
+      }
+      
+      // 绑定按钮事件
+      randomBgBtn.addEventListener('click', setRandomBackground);
+    });
+
+    // 原有脚本保持不变
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 50) {
@@ -202,7 +408,6 @@
         header.classList.add('bg-white/10');
       }
     });
-
 
     const emailBtn = document.getElementById('emailBtn');
     const emailModal = document.getElementById('emailModal');
@@ -232,13 +437,11 @@
     closeModal.addEventListener('click', closeModalFunc);
     modalOverlay.addEventListener('click', closeModalFunc);
 
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
         closeModalFunc();
       }
     });
-
 
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
@@ -246,7 +449,6 @@
     const originalContent = mainContent.innerHTML;
     let articlesData = []; 
     
- 
     document.addEventListener('DOMContentLoaded', function() {
       const articleItems = document.querySelectorAll('.article-item');
       articleItems.forEach(item => {
@@ -254,22 +456,18 @@
       });
     });
 
-
     let searchTimeout;
     
-
     function performSearch() {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
         const keyword = searchInput.value.trim().toLowerCase();
         
         if (keyword === '') {
-
           mainContent.innerHTML = originalContent;
           return;
         }
         
-
         mainContent.innerHTML = `
           <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 text-center text-shadow tracking-tight">
             爱分享
@@ -281,7 +479,6 @@
         
         let hasResults = false;
         
-
         articlesData.forEach(articleHTML => {
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = articleHTML;
@@ -308,13 +505,8 @@
       }, 300); 
     }
 
-
     searchInput.addEventListener('input', performSearch);
-
-
     searchBtn.addEventListener('click', performSearch);
-
-
     searchInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         performSearch();
