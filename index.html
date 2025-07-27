@@ -72,26 +72,6 @@
         background-attachment: fixed;
         transition: background-image 0.8s ease-in-out;
       }
-      
-      /* 新按钮动画 */
-      .action-btn {
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform: scale(0);
-        opacity: 0;
-      }
-      .action-btn.show {
-        transform: scale(1);
-        opacity: 1;
-      }
-      .action-btn-container {
-        display: flex;
-        gap: 0;
-        align-items: center;
-        justify-content: center;
-      }
-      .action-btn-container.active {
-        gap: 10px;
-      }
     }
 
     @keyframes gradient {
@@ -145,16 +125,6 @@
     .bg-overlay.active {
       opacity: 1;
     }
-    
-    /* 响应式调整 */
-    @media (max-width: 640px) {
-      .action-btn span {
-        display: none;
-      }
-      .action-btn {
-        padding: 0.5rem;
-      }
-    }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
@@ -184,25 +154,12 @@
       </div>
     </div>
     
-    <!-- 按钮容器 -->
+    <!-- 新增的随机背景按钮 -->
     <div class="flex justify-center mt-2 mb-3">
-      <div class="action-btn-container" id="bgActionContainer">
-        <!-- 新添加的两个按钮 -->
-        <button id="viewBgBtn" class="action-btn z-40 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
-          <i class="fa fa-eye"></i>
-          <span class="hidden sm:inline">查看背景</span>
-        </button>
-        
-        <button id="randomBgBtn" class="z-40 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-2 px-5 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
-          <i class="fa fa-image"></i>
-          <span>随机二次元背景</span>
-        </button>
-        
-        <button id="saveBgBtn" class="action-btn z-40 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
-          <i class="fa fa-download"></i>
-          <span class="hidden sm:inline">保存背景</span>
-        </button>
-      </div>
+      <button id="randomBgBtn" class="z-40 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-2 px-5 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+        <i class="fa fa-image"></i>
+        <span>随机二次元背景</span>
+      </button>
     </div>
   </header>
 
@@ -304,12 +261,6 @@
     // 背景图片功能
     const randomBgBtn = document.getElementById('randomBgBtn');
     const bgOverlay = document.getElementById('bgOverlay');
-    const viewBgBtn = document.getElementById('viewBgBtn');
-    const saveBgBtn = document.getElementById('saveBgBtn');
-    const bgActionContainer = document.getElementById('bgActionContainer');
-    
-    // 当前背景图片URL
-    let currentBgUrl = '';
     
     // 获取并设置背景图片
     function setRandomBackground() {
@@ -318,8 +269,8 @@
       randomBgBtn.innerHTML = '<div class="loader"></div>';
       randomBgBtn.disabled = true;
       
-      // 直接使用API地址（无参数）
-      const apiUrl = 'https://www.loliapi.com/acg/';
+      // 生成带时间戳的URL避免缓存
+      const apiUrl = `https://www.loliapi.com/acg/?t=${Date.now()}`;
       
       // 创建临时图片测试链接有效性
       const testImg = new Image();
@@ -338,16 +289,6 @@
           // 恢复按钮
           randomBgBtn.innerHTML = originalBtnHTML;
           randomBgBtn.disabled = false;
-          
-          // 设置当前背景URL
-          currentBgUrl = apiUrl;
-          
-          // 显示操作按钮
-          setTimeout(() => {
-            bgActionContainer.classList.add('active');
-            viewBgBtn.classList.add('show');
-            saveBgBtn.classList.add('show');
-          }, 300);
         }, 800);
         
         // 保存到sessionStorage中
@@ -363,30 +304,6 @@
       testImg.src = apiUrl;
     }
     
-    // 查看背景图片
-    viewBgBtn.addEventListener('click', function() {
-      if (currentBgUrl) {
-        window.open(currentBgUrl, '_blank');
-      } else {
-        alert('请先获取背景图片');
-      }
-    });
-    
-    // 保存背景图片
-    saveBgBtn.addEventListener('click', function() {
-      if (currentBgUrl) {
-        // 创建临时链接下载
-        const link = document.createElement('a');
-        link.href = currentBgUrl;
-        link.download = `二次元背景_${Date.now()}.jpg`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        alert('请先获取背景图片');
-      }
-    });
-    
     // 页面加载时检查是否有保存的背景
     document.addEventListener('DOMContentLoaded', function() {
       const savedBg = sessionStorage.getItem('animeBackground');
@@ -394,14 +311,6 @@
         document.body.classList.remove('bg-gradient-dynamic');
         document.body.classList.add('bg-anime-image');
         document.body.style.backgroundImage = `url(${savedBg})`;
-        currentBgUrl = savedBg;
-        
-        // 显示操作按钮
-        setTimeout(() => {
-          bgActionContainer.classList.add('active');
-          viewBgBtn.classList.add('show');
-          saveBgBtn.classList.add('show');
-        }, 300);
       }
       
       // 绑定按钮事件
