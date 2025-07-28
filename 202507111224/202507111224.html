@@ -355,17 +355,40 @@
       }
     });
   </script>
- <script>
- document.addEventListener('DOMContentLoaded', function() {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   // 1. 读取index.html保存的背景图
   const savedBg = sessionStorage.getItem('animeBackground');
-  if (savedBg) {
-     const cleanBgUrl = savedBg.split('?t=')[0];classList.remove('bg-gradient-dynamic');
-     document.body.style.backgroundImage = `url(${savedBg})`;
-     document.body.style.backgroundSize = 'cover';
-     document.body.style.backgroundPosition = 'center';
-     document.body.style.backgroundRepeat = 'no-repeat';
-     document.body.style.backgroundAttachment = 'fixed';
+  if (!savedBg) {
+     // 若没有缓存，可提示用户先访问首页，或自动生成新背景
+     console.log('未检测到首页背景，请先访问index.html');
+     return;
    }
+ 
+   // 2. 处理URL中的缓存参数（移除时间戳和随机数，确保图片有效）
+  let cleanBgUrl = savedBg;
+   // 移除所有查询参数（保留基础URL）
+  if (cleanBgUrl.includes('?')) {
+     cleanBgUrl = cleanBgUrl.split('?')[0];
+   }
+
+   // 3. 验证图片有效性（避免无效链接）
+   const testImg = new Image();
+   testImg.onload = function() {
+     // 4. 彻底移除原有渐变背景，应用新背景
+     const body = document.body;
+     body.classList.remove('bg-gradient-dynamic'); // 移除渐变类
+     body.style.background = 'none'; // 清除可能的内联样式
+     body.style.backgroundImage = `url(${cleanBgUrl})`;
+     body.style.backgroundSize = 'cover';
+     body.style.backgroundPosition = 'center';
+     body.style.backgroundRepeat = 'no-repeat';
+     body.style.backgroundAttachment = 'fixed';
+   };
+   testImg.onerror = function() {
+     console.log('背景图加载失败，使用默认渐变');
+   };
+   testImg.src = cleanBgUrl; // 验证图片是否可访问
  });
  </script>
 </body>
