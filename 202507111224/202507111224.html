@@ -357,9 +357,9 @@
   </script>
  <script>
  document.addEventListener('DOMContentLoaded', function() {
-   const savedBg = sessionStorage.getItem('animeBackground');
-   if (savedBg) {
-     document.body.classList.remove('bg-gradient-dynamic');
+  const savedBg = sessionStorage.getItem('animeBackground');
+  if (savedBg) {
+     const cleanBgUrl = savedBg.split('?t=')[0];classList.remove('bg-gradient-dynamic');
      document.body.style.backgroundImage = `url(${savedBg})`;
      document.body.style.backgroundSize = 'cover';
      document.body.style.backgroundPosition = 'center';
