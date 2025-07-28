@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱分享</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366F1',
+            secondary: '#EC4899',
+            accent: '#8B5CF6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .bg-gradient-dynamic {
+        background: linear-gradient(45deg, #6366F1, #EC4899, #8B5CF6, #10B981);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+      .nav-blur {
+        backdrop-filter: blur(8px);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .flip-in {
+        animation: flipIn 0.6s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      }
+      .flip-out {
+        animation: flipOut 0.6s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+      }
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes flipIn {
+      0% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+      40% { transform: perspective(800px) rotateY(-20deg); }
+      100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+    }
+
+    @keyframes flipOut {
+      0% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+      40% { transform: perspective(800px) rotateY(20deg); }
+      100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex items-center space-x-7">
+        <a href="https://aeafxen.dpdns.org" class="text-white/70 hover:text-white transition-colors">
+          <i class="fa fa-home fa-lg"></i>
+        </a>
+        
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 overflow-hidden border border-white/30">
+            <img src="https://raw.githubusercontent.com/xfchd090909/aifenxiang/main/avatar/mmexport1749912260190.jpg" alt="作者头像" class="w-full h-full object-cover">
+          </div>
+          <span class="text-lg font-semibold text-shadow">Æ</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16">
+  <div class="max-w-7xl w-full px-4 sm:px-6 lg:px-8">
+    <div class="article-container bg-transparent rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div class="relative h-64 md:h-80 lg:h-96 overflow-hidden rounded-2xl shadow-lg">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+        <img src="20250725151339.png" alt="Pikabuu: Stop!" class="w-full h-full object-cover">
+        <div class="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-10">
+          <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white text-shadow tracking-tight mb-2">
+            Pikabuu: Stop!
+          </h2>
+          <p class="text-gray-200 text-lg md:text-xl">应用分享</p>
+        </div>
+      </div>
+      
+        <div class="article-content max-w-4xl mx-auto px-6 py-12 md:px-12 md:py-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-6">
+        <div class="prose prose-lg max-w-none">
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">简介</h3>
+          <p class="text-gray-800 mb-6">
+            游戏围绕主角贝尼展开，他是一位努力养家的父亲。然而，他陷入了赌博和非法贷款的困境，使整个家庭濒临破碎。玩家将通过游戏体验贝尼及其家人的苦难，深刻感受赌博对家庭的毁灭性影响。
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">剧情驱动的游戏玩法</h3>
+          <p class="text-gray-800 mb-6">
+            游戏采用以故事为中心的玩法。玩家在游戏中做出的每一个决定都会影响剧情的发展和角色的命运。这种玩法能让玩家真正沉浸在贝尼的故事中，感受他所面临的各种困境和选择，增强游戏的代入感和情感共鸣。
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">多结局设计</h3>
+          <p class="text-gray-800 mb-6">
+            游戏设有六个不同的结局，取决于玩家在游戏过程中的选择。不同的结局展现了赌博问题可能带来的各种后果。在某些结局中，贝尼最终无法承受压力而选择自杀；在另一些结局中，他会采取极端手段还债，比如出售器官。这些结局深刻反映了赌博对个人和家庭的严重危害，让玩家在游戏结束后能对赌博问题进行更深层次的思考。
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">情感强烈的叙事风格</h3>
+          <p class="text-gray-800 mb-6">
+            游戏采用情感强烈的叙事手法，生动描绘了贝尼及其家人在面对赌博危机时的痛苦、挣扎与绝望。通过细腻的情感表达，玩家能更深刻地理解赌博问题的严重性以及它对家庭和个人生活造成的巨大破坏。
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">敏感主题的呈现</h3>
+          <p class="text-gray-800 mb-6">
+            游戏毫不保留地呈现了家庭暴力、经济崩溃、家庭创伤等敏感主题。通过直观的画面和剧情设置，让玩家明白赌博问题不仅仅是个人的经济损失，还会引发一系列严重的社会和家庭问题，进一步凸显了游戏的教育意义。
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">游戏意义</h3>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">教育和警示作用</h4>
+          <p class="text-gray-800 mb-6">
+            通过生动的游戏剧情和多结局设计，直观地向玩家展示赌博的危害，起到了良好的教育和警示作用。玩家在娱乐的同时，能深刻认识到赌博可能带来的严重后果，从而远离赌博。
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">游戏玩法</h3>
+          <p class="text-gray-800 mb-6">
+            1. 点击“新游戏”后，会出现关于游戏中敏感内容的提示和技能测试。对于敏感内容提示，必须根据自身身心状况选择。技能测试需要持续点击“Tap”按钮，直到进度条充满，然后点击“继续”开始游戏。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725162608.jpg" alt="敏感内容" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725162547.jpg" alt="技能测试" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725162559.jpg" alt="开始游戏" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            2. 进入游戏后，主角坐在椅子上。主角可以拿起桌上的香烟或电视遥控器。拿起电视遥控器后，对准电视可以换台。在此期间，主角无法移动，直到妻子前来互动，故事才会展开。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725162621.jpg" alt="游戏中" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            3. 如果觉得灵敏度太快，可以点击右上角的暂停按钮，调整“Sensitivity”选项。“Fov Camera”是视角选项，数值越高，视角越广。调整后，点击下方的“返回游戏”继续游戏。如果想退出游戏，点击暂停后再点击右下角的“退出游戏”。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725162637.jpg" alt="灵敏度设置" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          </p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">结局概述</h3>
+          <p class="text-gray-800 mb-6">
+            结局1结论：所有关于赌博毁人生的惨痛新闻和故事，最初都始于“只是玩玩而已”（最佳结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153827.jpg" alt="结局1" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            结局2结论：意识到赌博正在伤害你的那一刻，就是拯救自己的黄金机会（良好结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153849.jpg" alt="结局2" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            结局3结论：很多人认为赌博是解决办法，实则是所有解决办法的终点（糟糕结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153858.jpg" alt="结局3" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            结局4结论：不要让赌博夺走你的一切，包括最后一口气（糟糕结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153906.jpg" alt="结局4" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            结局5结论：赌博的第一个受害者是家庭（糟糕结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153913.jpg" alt="结局5" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            结局6结论：赌博危害的不仅是财富，更是家庭幸福（最坏结局）
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250725153919.jpg" alt="结局6" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">注意事项</h3>
+          <p class="text-gray-800 mb-6">
+            1. Windows版本目前仅有Demo版，内容可能有所缩减。完整版将于2025年7月29日在Steam平台正式发布。有关完整版信息，请参考Steam及各大线上平台。<br>
+            2. Android版本为完整版，拥有安卓设备的用户可下载体验。<br>
+            3. 暂未推出iOS版本。<br>
+            4. 游戏包含轻度恐怖、血腥情节及赌博内容，心理承受能力较差的玩家请谨慎游玩！！！（如发生意外，后果自负）
+            5. 点击PikabuuSTOP_DEMO.exe启动游戏。若无法启动游戏，右键点击PikabuuSTOP_DEMO.exe，选择“属性”，在“常规”选项卡的“安全”中，点击“解除锁定”，再点击“确定”。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250726101300.jpg" alt="安全提示" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">下载链接</h3>
+          <p class="text-gray-800 mb-6">
+            下载链接（谷歌云端硬盘）：
+          <a href="https://drive.google.com/drive/folders/1JJY8Ed_B7Qj5c54k-Wbe5WVFTtbH6kXZ?usp=drive_link" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-link mr-1"></i> 打开
+          </a>
+          </p>
+            <div class="flex flex-wrap items-center gap-4">
+              <span class="text-sm font-medium text-gray-500">发布时间：2025年7月25日</span>
+              <span class="text-sm font-medium text-gray-500">发布地点：广东</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center mt-8">
+        <button id="shareBtn" class="bg-primary text-white py-2 px-4 rounded-md hover:bg-accent transition-colors">
+          <i class="fa fa-share-alt"></i> 分享
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+  <footer class="py-8 px-4 bg-black/20 text-center">
+    <div class="container mx-auto">
+      <p class="text-lg mb-2">2025 爱分享</p>
+      <p class="text-sm text-white/60 mb-4">所有素材均来自互联网，如有侵权请联系本人删除。</p>
+      <button id="emailBtn" class="text-white/80 hover:text-white transition-colors">
+        <i class="fa fa-envelope-o text-xl"></i>
+      </button>
+
+      <div class="mt-4">
+        <a href="https://aeafxen.dpdns.org/202507251406/202507251406.en" class="text-white/80 hover:text-white transition-colors mx-2">English</a>
+        <span class="text-white/80">|</span>
+        <a href="https://aeafx.dpdns.org/202507251406/202507251406" class="text-white/80 hover:text-white transition-colors mx-2">中文</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="emailModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="modalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="modalContent">
+      <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">联系邮箱</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-envelope-o text-primary mr-3"></i>
+          <span>163邮箱：teada2024@163.com</span>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-envelope-o text-accent mr-3"></i>
+          <span>Gmail：xfchd090909@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="shareModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="shareModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="shareModalContent">
+      <button id="closeShareModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">分享至</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-telegram text-accent mr-3"></i>
+          <a href="https://t.me/share/url?url=https://aeafxen.dpdns.org/202507251406/202507251406.en.html&text=Pikabuu: Stop!" target="_blank" class="hover:text-accent">Telegram</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-commenting text-secondary mr-3"></i>
+          <a href="https://line.me/R/msg/text/?Pikabuu: Stop! https://aeafx.dpdnsen.org/202507251406/202507251406.en.html" target="_blank" class="hover:text-secondary">LINE</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-facebook text-primary mr-3"></i>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://aeafx.dpdnsen.org/202507251406/202507251406.en.html" target="_blank" class="hover:text-primary">Facebook</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-whatsapp text-accent mr-3"></i>
+          <a href="whatsapp://send?text=Pikabuu: Stop! https://aeafxen.dpdns.org/202507251406/202507251406.en.html" target="_blank" class="hover:text-accent">Whatsapp</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-link text-secondary mr-3"></i>
+          <button id="copyLinkBtn" class="hover:text-secondary">分享链接</button>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 mt-4">由于国内软件审核机制严格，网站目前暂不提供微信、QQ等部分软件的分享方式。您可以使用分享链接来分享本文。</p>
+    </div>
+  </div>
+
+  <div id="copySuccessModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="copySuccessModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="copySuccessModalContent">
+      <button id="closeCopySuccessModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">复制成功</h3>
+      <p class="text-gray-700">链接已复制到剪贴板</p>
+    </div>
+  </div>
+
+  <script>
+
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('bg-white/20', 'shadow-md');
+        header.classList.remove('bg-white/10');
+      } else {
+        header.classList.remove('bg-white/20', 'shadow-md');
+        header.classList.add('bg-white/10');
+      }
+    });
+
+
+    const emailBtn = document.getElementById('emailBtn');
+    const emailModal = document.getElementById('emailModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModal = document.getElementById('closeModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    function openModal() {
+      emailModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        modalContent.classList.add('flip-in');
+        modalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalFunc() {
+      modalContent.classList.add('flip-out');
+      setTimeout(() => {
+        emailModal.classList.add('opacity-0', 'pointer-events-none');
+        modalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    emailBtn.addEventListener('click', openModal);
+    closeModal.addEventListener('click', closeModalFunc);
+    modalOverlay.addEventListener('click', closeModalFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
+        closeModalFunc();
+      }
+    });
+
+    const shareBtn = document.getElementById('shareBtn');
+    const shareModal = document.getElementById('shareModal');
+    const shareModalContent = document.getElementById('shareModalContent');
+    const closeShareModal = document.getElementById('closeShareModal');
+    const shareModalOverlay = document.getElementById('shareModalOverlay');
+
+    function openShareModal() {
+      shareModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        shareModalContent.classList.add('flip-in');
+        shareModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeShareModalFunc() {
+      shareModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        shareModal.classList.add('opacity-0', 'pointer-events-none');
+        shareModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    shareBtn.addEventListener('click', openShareModal);
+    closeShareModal.addEventListener('click', closeShareModalFunc);
+    shareModalOverlay.addEventListener('click', closeShareModalFunc);
+
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const copySuccessModal = document.getElementById('copySuccessModal');
+    const copySuccessModalContent = document.getElementById('copySuccessModalContent');
+    const closeCopySuccessModal = document.getElementById('closeCopySuccessModal');
+    const copySuccessModalOverlay = document.getElementById('copySuccessModalOverlay');
+
+    function openCopySuccessModal() {
+      copySuccessModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        copySuccessModalContent.classList.add('flip-in');
+        copySuccessModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCopySuccessModalFunc() {
+      copySuccessModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        copySuccessModal.classList.add('opacity-0', 'pointer-events-none');
+        copySuccessModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    copyLinkBtn.addEventListener('click', () => {
+      const link = 'https://aeafxen.dpdns.org/202507251406/202507251406.en.html';
+      navigator.clipboard.writeText(link).then(() => {
+        openCopySuccessModal();
+      }).catch((err) => {
+        console.error('复制链接失败: ', err);
+      });
+    });
+
+    closeCopySuccessModal.addEventListener('click', closeCopySuccessModalFunc);
+    copySuccessModalOverlay.addEventListener('click', closeCopySuccessModalFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !shareModal.classList.contains('opacity-0')) {
+        closeShareModalFunc();
+      }
+      if (e.key === 'Escape' && !copySuccessModal.classList.contains('opacity-0')) {
+        closeCopySuccessModalFunc();
+      }
+    });
+  </script>
+</body>
+</html>
