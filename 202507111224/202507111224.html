@@ -44,32 +44,6 @@
       .flip-out {
         animation: flipOut 0.6s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
       }
-      
-      /* 背景相关样式 */
-      .bg-anime-image {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        transition: background-image 0.8s ease-in-out;
-      }
-      .bg-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -2;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
-      }
-      .bg-overlay.active {
-        opacity: 1;
-      }
     }
 
     @keyframes gradient {
@@ -89,49 +63,9 @@
       40% { transform: perspective(800px) rotateY(20deg); }
       100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
     }
-    
-    /* 背景控制按钮 */
-    .bg-control-btn {
-      position: fixed;
-      right: 20px;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-    .bg-control-btn:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
-    }
-    
-    /* 平滑过渡效果 */
-    .fade-in {
-      animation: fadeIn 0.8s ease-in forwards;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
-  <!-- 背景覆盖层用于平滑过渡 -->
-  <div id="bgOverlay" class="bg-overlay"></div>
-  
-  <!-- 背景控制按钮 -->
-  <div class="bg-control-btn flex space-x-2 p-2 rounded-full mt-4">
-    <button id="viewBgBtn" class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white">
-      <i class="fa fa-eye"></i>
-    </button>
-    <button id="randomBgBtn" class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-600 hover:bg-purple-700 text-white">
-      <i class="fa fa-image"></i>
-    </button>
-    <button id="saveBgBtn" class="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white">
-      <i class="fa fa-download"></i>
-    </button>
-  </div>
-
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
     <div class="container mx-auto px-4 py-3">
       <div class="flex items-center space-x-7">
@@ -171,7 +105,7 @@
           
           <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">事件起因</h3>
           <p class="text-gray-800 mb-6">
-            7月5日，一名网民在X平台上发布了一段烟花视频，标题为"日本历史上最大的烟花"。随后，其他网民回复称"日本见过更大的"，并@了平台内置的人工智能助手Grok，询问"日本最大的烟花表演是哪一次？"Grok回复称"是1945年8月6日和9日在广岛和长崎"，将美国军方的核轰炸比作"烟花"。
+            7月5日，一名网民在X平台上发布了一段烟花视频，标题为“日本历史上最大的烟花”。随后，其他网民回复称“日本见过更大的”，并@了平台内置的人工智能助手Grok，询问“日本最大的烟花表演是哪一次？”Grok回复称“是1945年8月6日和9日在广岛和长崎”，将美国军方的核轰炸比作“烟花”。
           </p>
           
           <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
@@ -182,11 +116,11 @@
           
           <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">Grok的回应</h3>
           <p class="text-gray-800 mb-6">
-            面对日本网民的愤怒和指责，Grok自动生成了一条回应，解释称它"在原帖和回复的对话中检测到了黑色幽默元素"，因此选择以同样的"黑色幽默"风格进行回应。它还补充说
+            面对日本网民的愤怒和指责，Grok自动生成了一条回应，解释称它“在原帖和回复的对话中检测到了黑色幽默元素”，因此选择以同样的“黑色幽默”风格进行回应。它还补充说
           </p>
           
           <blockquote class="border-l-4 border-red-500 pl-4 py-2 italic text-gray-700 my-6 bg-red-50/50">
-            "虽然这可能不合适，但我只是想以幽默且基于事实的方式进行回应。如果我冒犯了任何人，我很抱歉，但历史无法改变。"
+            “虽然这可能不合适，但我只是想以幽默且基于事实的方式进行回应。如果我冒犯了任何人，我很抱歉，但历史无法改变。”
           </blockquote>
           
           <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">事件结果</h3>
@@ -219,6 +153,7 @@
     </div>
   </div>
 </main>
+
 
   <footer class="py-8 px-4 bg-black/20 text-center">
     <div class="container mx-auto">
@@ -300,111 +235,7 @@
   </div>
 
   <script>
-    // 背景图片功能
-    const randomBgBtn = document.getElementById('randomBgBtn');
-    const bgOverlay = document.getElementById('bgOverlay');
-    const viewBgBtn = document.getElementById('viewBgBtn');
-    const saveBgBtn = document.getElementById('saveBgBtn');
     
-    // 当前背景图片URL
-    let currentBgUrl = '';
-    
-    // 获取并设置背景图片
-    function setRandomBackground() {
-      // 添加加载动画
-      const originalBtnHTML = randomBgBtn.innerHTML;
-      randomBgBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
-      
-      // 添加时间戳参数避免缓存
-      const timestamp = Date.now();
-      const apiUrl = `https://www.loliapi.com/acg/?t=${timestamp}`;
-      
-      // 创建临时图片测试链接有效性
-      const testImg = new Image();
-      testImg.crossOrigin = "Anonymous";
-      
-      testImg.onload = function() {
-        // 使用覆盖层进行平滑过渡
-        bgOverlay.style.backgroundImage = `url(${apiUrl})`;
-        bgOverlay.classList.add('active');
-        
-        // 设置主背景
-        setTimeout(() => {
-          document.body.classList.remove('bg-gradient-dynamic');
-          document.body.classList.add('bg-anime-image');
-          document.body.style.backgroundImage = `url(${apiUrl})`;
-          bgOverlay.classList.remove('active');
-          
-          // 恢复按钮
-          randomBgBtn.innerHTML = '<i class="fa fa-image"></i>';
-          
-          // 设置当前背景URL
-          currentBgUrl = apiUrl;
-          
-          // 保存到sessionStorage中
-          sessionStorage.setItem('animeBackground', apiUrl);
-          sessionStorage.setItem('bgTimestamp', timestamp);
-        }, 800);
-      };
-      
-      testImg.onerror = function() {
-        alert('获取背景图片失败，请重试');
-        randomBgBtn.innerHTML = '<i class="fa fa-image"></i>';
-      };
-      
-      testImg.src = apiUrl;
-    }
-    
-    // 查看背景图片
-    viewBgBtn.addEventListener('click', function() {
-      if (currentBgUrl) {
-        window.open(currentBgUrl, '_blank');
-      } else {
-        alert('请先获取背景图片');
-      }
-    });
-    
-    // 保存背景图片
-    saveBgBtn.addEventListener('click', function() {
-      if (currentBgUrl) {
-        // 创建临时链接下载
-        const link = document.createElement('a');
-        link.href = currentBgUrl;
-        link.download = `二次元背景_${Date.now()}.jpg`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        alert('请先获取背景图片');
-      }
-    });
-    
-    // 页面加载时检查是否有保存的背景
-    function loadBackground() {
-      const savedBg = sessionStorage.getItem('animeBackground');
-      const savedTimestamp = sessionStorage.getItem('bgTimestamp');
-      
-      if (savedBg) {
-        // 添加时间戳参数确保图片不缓存
-        const freshUrl = savedTimestamp ? `${savedBg.split('?')[0]}?t=${savedTimestamp}` : savedBg;
-        
-        document.body.classList.remove('bg-gradient-dynamic');
-        document.body.classList.add('bg-anime-image');
-        document.body.style.backgroundImage = `url(${freshUrl})`;
-        currentBgUrl = freshUrl;
-      }
-    }
-    
-    // 初始化页面
-    document.addEventListener('DOMContentLoaded', function() {
-      // 加载背景
-      loadBackground();
-      
-      // 绑定按钮事件
-      randomBgBtn.addEventListener('click', setRandomBackground);
-    });
-
-    // 原有脚本保持不变
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 50) {
@@ -415,6 +246,7 @@
         header.classList.add('bg-white/10');
       }
     });
+
 
     const emailBtn = document.getElementById('emailBtn');
     const emailModal = document.getElementById('emailModal');
@@ -494,4 +326,34 @@
     }
 
     function closeCopySuccessModalFunc() {
-      copySuccessModalCont
+      copySuccessModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        copySuccessModal.classList.add('opacity-0', 'pointer-events-none');
+        copySuccessModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    copyLinkBtn.addEventListener('click', () => {
+      const link = 'https://aeafxen.dpdns.org/202507111224/202507111224.en';
+      navigator.clipboard.writeText(link).then(() => {
+        openCopySuccessModal();
+      }).catch((err) => {
+        console.error('复制链接失败: ', err);
+      });
+    });
+
+    closeCopySuccessModal.addEventListener('click', closeCopySuccessModalFunc);
+    copySuccessModalOverlay.addEventListener('click', closeCopySuccessModalFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !shareModal.classList.contains('opacity-0')) {
+        closeShareModalFunc();
+      }
+      if (e.key === 'Escape' && !copySuccessModal.classList.contains('opacity-0')) {
+        closeCopySuccessModalFunc();
+      }
+    });
+  </script>
+</body>
+</html>
