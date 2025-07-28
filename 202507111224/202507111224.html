@@ -46,6 +46,25 @@
       }
     }
 
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+   }
+   .bg-overlay.active {
+     opacity: 1;
+   }
+}
+
     @keyframes gradient {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -66,6 +85,7 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
+  <div id="bgOverlay" class="bg-overlay"></div>
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
     <div class="container mx-auto px-4 py-3">
       <div class="flex items-center space-x-7">
@@ -357,38 +377,41 @@
   </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-   // 1. 读取index.html保存的背景图
+  // 1. 读取主页保存的背景图URL
   const savedBg = sessionStorage.getItem('animeBackground');
   if (!savedBg) {
-     // 若没有缓存，可提示用户先访问首页，或自动生成新背景
-     console.log('未检测到首页背景，请先访问index.html');
+     console.log('请先访问index.html生成背景图');
      return;
    }
- 
-   // 2. 处理URL中的缓存参数（移除时间戳和随机数，确保图片有效）
-  let cleanBgUrl = savedBg;
-   // 移除所有查询参数（保留基础URL）
-  if (cleanBgUrl.includes('?')) {
-     cleanBgUrl = cleanBgUrl.split('?')[0];
-   }
 
-   // 3. 验证图片有效性（避免无效链接）
+  // 2. 处理URL（保留基础地址，移除可能导致图片变化的参数）
+   const baseUrl = savedBg.split('?')[0]; // 提取基础URL（如https://www.loliapi.com/acg/）
+
+  // 3. 验证图片有效性
    const testImg = new Image();
    testImg.onload = function() {
-     // 4. 彻底移除原有渐变背景，应用新背景
      const body = document.body;
-     body.classList.remove('bg-gradient-dynamic'); // 移除渐变类
-     body.style.background = 'none'; // 清除可能的内联样式
-     body.style.backgroundImage = `url(${cleanBgUrl})`;
+    // 彻底移除原有渐变背景
+     body.classList.remove('bg-gradient-dynamic');
+    // 清除body可能存在的内联背景样式
+     body.style.background = 'none';
+    // 应用主页背景图
+     body.style.backgroundImage = `url(${baseUrl})`;
      body.style.backgroundSize = 'cover';
      body.style.backgroundPosition = 'center';
      body.style.backgroundRepeat = 'no-repeat';
      body.style.backgroundAttachment = 'fixed';
+    // 若有背景覆盖层，同步设置（参考主页的bgOverlay逻辑）
+     const bgOverlay = document.getElementById('bgOverlay');
+     if (bgOverlay) {
+       bgOverlay.style.backgroundImage = `url(${baseUrl})`;
+       bgOverlay.classList.add('active');
+     }
    };
    testImg.onerror = function() {
-     console.log('背景图加载失败，使用默认渐变');
+     console.log('背景图加载失败，使用默认样式');
    };
-   testImg.src = cleanBgUrl; // 验证图片是否可访问
+   testImg.src = baseUrl;
  });
  </script>
 </body>
