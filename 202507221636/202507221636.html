@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱分享</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366F1',
+            secondary: '#EC4899',
+            accent: '#8B5CF6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .bg-gradient-dynamic {
+        background: linear-gradient(45deg, #6366F1, #EC4899, #8B5CF6, #10B981);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+      .nav-blur {
+        backdrop-filter: blur(8px);
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .flip-in {
+        animation: flipIn 0.6s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      }
+      .flip-out {
+        animation: flipOut 0.6s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+      }
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes flipIn {
+      0% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+      40% { transform: perspective(800px) rotateY(-20deg); }
+      100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+    }
+
+    @keyframes flipOut {
+      0% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
+      40% { transform: perspective(800px) rotateY(20deg); }
+      100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex items-center space-x-7">
+        <a href="https://aeafxen.dpdns.org" class="text-white/70 hover:text-white transition-colors">
+          <i class="fa fa-home fa-lg"></i>
+        </a>
+        
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 overflow-hidden border border-white/30">
+            <img src="https://raw.githubusercontent.com/xfchd090909/aifenxiang/main/avatar/mmexport1749912260190.jpg" alt="作者头像" class="w-full h-full object-cover">
+          </div>
+          <span class="text-lg font-semibold text-shadow">Æ</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16">
+  <div class="max-w-7xl w-full px-4 sm:px-6 lg:px-8">
+    <div class="article-container bg-transparent rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div class="relative h-64 md:h-80 lg:h-96 overflow-hidden rounded-2xl shadow-lg">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+        <img src="20250722190050.jpg" alt="文明6" class="w-full h-full object-cover">
+        <div class="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-10">
+          <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white text-shadow tracking-tight mb-2">
+            文明6 完整DLC版本
+          </h2>
+          <p class="text-gray-200 text-lg md:text-xl">应用分享</p>
+        </div>
+      </div>
+      
+        <div class="article-content max-w-4xl mx-auto px-6 py-12 md:px-12 md:py-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-6">
+        <div class="prose prose-lg max-w-none">
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">简介</h3>
+          <p class="text-gray-800 mb-6">
+            文明6完整DLC版本提供了更多游戏模式，并且移除了60回合的限制。<br>
+            本文提供全平台（包括安卓、iOS和Windows）的下载链接。
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">下载与安装方法</h3>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">下载</h4>
+          <p class="text-gray-800 mb-6">
+            主下载链接（123云盘）：
+           <a href="https://www.123912.com/s/tB00Td-93I7d" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+            <i class="fa fa-link mr-1"></i> 打开
+           </a>
+           <br>
+           <br>
+            备用下载链接（123云盘）：
+          <a href="https://www.123865.com/s/tB00Td-93I7d" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+          <i class="fa fa-link mr-1"></i> 打开
+          </a>
+          <br>
+          <br>
+            选择并下载适合您系统的版本。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722192133.jpg" alt="下载" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">注意事项</h4>
+          <p class="text-gray-800 mb-6">
+            关于文明6（iOS）：<br>
+            "恢复存档.imazingapp"适用于未越狱/TrollStore用户，需要Mac或Windows电脑。<br>
+            "文明6全DLC越狱巨魔.zip"适用于已越狱/TrollStore用户，可使用Filza文件管理器进行恢复。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250723141654.jpg" alt="注意事项" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">安装</h4>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">安卓</h4>
+          <p class="text-gray-800 mb-6">
+            从云盘下载后直接安装即可。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722194706.jpg" alt="安卓" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">iOS（未越狱）</h4>
+          <p class="text-gray-800 mb-6">
+            注意：此方法必须关闭"查找我的设备"。<br>
+            关闭方法：设置 - 隐私与安全性 - 定位服务 - 共享我的位置 - 查找我的设备，输入您的Apple ID密码进行关闭。<br>
+            <br>
+            应用商店：
+          <a href="https://apps.apple.com/gb/app/sid-meiers-civilization-vi/id1235863443" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-download mr-1"></i> 前往App Store
+          </a>
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722194211.jpg" alt="苹果" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            1. 打开电脑并下载iMazing。<br><br>
+            iMazing：
+          <a href="https://imazing.com" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-link mr-1"></i> iMazing官方网站
+          </a>
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722195111.jpg" alt="iMazing官方网站" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <div class="mt-12 pt-8 border-t border-gray-200">
+          <p class="text-gray-800 mb-6">
+            2. 打开iMazing，用数据线连接您的设备，点击左侧的"应用程序"。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722195433.jpg" alt="iMazing恢复" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            3. 选择文明6并点击"恢复应用程序"。如果"恢复应用程序"不可用，点击下方的"管理应用程序"。<br>
+            首次进入"管理应用程序"时，需要输入您的Apple ID和密码。如果开启了双重认证，还需要输入相应的验证码。
+          </p>
+         <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200000.jpg" alt="管理应用程序" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            4. 点击设备选项卡，选择文明6，右键点击并选择"恢复应用程序数据"。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200433.jpg" alt="管理应用程序" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+           <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200444.jpg" alt="管理应用程序" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            5. 选择从云盘下载的"恢复存档.imazingapp"文件，点击"完成"。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200845.jpg" alt="管理应用程序" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            6. iMazing会提示恢复您的应用程序并重启。点击"继续"。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200907.jpg" alt="恢复应用程序" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            7. iMazing将开始恢复您的应用程序。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722201000.jpg" alt="开始恢复" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            8. 恢复完成后，会提示您的设备恢复已完成。如果您的设备显示设置助手，请选择"不传输应用和数据"，否则您恢复的应用程序将会丢失。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722200931.jpg" alt="恢复完成" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            9. 启动时输入密码后，如果出现恢复助手，点击"自定义设置" - "应用与数据（不传输应用和数据）"，然后按照提示完成流程。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722202644.jpg" alt="恢复助手" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">iOS（已越狱）</h4>
+          <p class="text-gray-800 mb-6">
+            注意：此方法无需关闭查找我的设备。<br><br>
+            应用商店：
+          <a href="https://apps.apple.com/gb/app/sid-meiers-civilization-vi/id1235863443" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-download mr-1"></i> 前往App Store
+          </a>
+          <br>
+          <br>
+            或从云盘下载"Civilization6.ipa"，使用TrollStore安装。
+          </p>
+          <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg transform transition-transform duration-300 hover:scale-[1.01]">
+            <img src="20250722203332.jpg" alt="安装包" class="w-full h-auto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+            </div>
+          </div>
+          <p class="text-gray-800 mb-6">
+            1. 从云盘下载"文明6全DLC越狱巨魔.zip"并解压。<br>2. 解压后会有两个文件夹"Documents"和"Library"。将这两个文件夹共享到Filza，然后复制到剪贴板。<br>3. 打开App Manager，找到文明6，进入其目录，点击从Filza剪贴板粘贴，选择"应用于全部"，点击替换，完成后即可打开游戏。
+          </p>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">Windows</h4>
+          <p class="text-gray-800 mb-6">  
+            下载链接：
+          <a href="https://apps.apple.com/gb/app/sid-meiers-civilization-vi/id1235863443" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-link mr-1"></i> 打开
+          </a>
+          <br>
+          <br>
+            解压压缩包，打开目录Base\Binaries\Win64Steam，点击"CivilizationVI_DX12.exe"或"CivilizationVI.exe"启动游戏。<br>
+            如果打开"CivilizationVI_DX12.exe"报错"未找到可用的图形设备。请确保您的系统已安装正确且兼容的图形设备"，请改用"CivilizationVI.exe"。
+          </p>
+          <h4 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">问题分析</h4>
+          <p class="text-gray-800 mb-6">
+            如果打开"CivilizationVI_DX12.exe"报错"未找到可用的图形设备。请确保您的系统已安装正确且兼容的图形设备"，可能是您的显卡驱动不是最新版本，安装了不兼容的显卡驱动，或者使用的是类似P106-100的计算力显卡，导致游戏无法调用显卡驱动。如果是前者，您可以下载"驱动精灵"或"驱动人生"来更新显卡驱动。如果是后者且您使用的是计算力显卡，可能需要考虑更换新显卡或新电脑。
+          </p>
+            <div class="flex flex-wrap items-center gap-4">
+              <span class="text-sm font-medium text-gray-500">发布日期：2025年7月22日</span>
+              <span class="text-sm font-medium text-gray-500">发布于广东</span>
+              <span class="text-sm font-medium text-gray-500">本网站主要在中国运营，部分英文单词可能翻译有误</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center mt-8">
+        <button id="shareBtn" class="bg-primary text-white py-2 px-4 rounded-md hover:bg-accent transition-colors">
+          <i class="fa fa-share-alt"></i> 分享
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+  <footer class="py-8 px-4 bg-black/20 text-center">
+    <div class="container mx-auto">
+      <p class="text-lg mb-2">2025 爱分享</p>
+      <p class="text-sm text-white/60 mb-4">所有素材均来自互联网，如有侵权请联系我删除。</p>
+      <button id="emailBtn" class="text-white/80 hover:text-white transition-colors">
+        <i class="fa fa-envelope-o text-xl"></i>
+      </button>
+
+      <div class="mt-4">
+        <a href="https://aeafxen.dpdns.org/202507221636/202507221636.en" class="text-white/80 hover:text-white transition-colors mx-2">English</a>
+        <span class="text-white/80">|</span>
+        <a href="https://aeafx.dpdns.org/202507221636/202507221636" class="text-white/80 hover:text-white transition-colors mx-2">中文</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="emailModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="modalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="modalContent">
+      <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">联系邮箱</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-envelope-o text-primary mr-3"></i>
+          <span>163邮箱：teada2024@163.com</span>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-envelope-o text-accent mr-3"></i>
+          <span>Gmail：xfchd090909@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="shareModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="shareModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="shareModalContent">
+      <button id="closeShareModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">分享至</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-telegram text-accent mr-3"></i>
+          <a href="https://t.me/share/url?url=https://aeafxen.dpdns.org/202507221636/202507221636.en&text=Civilization 6 Complete DLC Version" target="_blank" class="hover:text-accent">Telegram</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-commenting text-secondary mr-3"></i>
+          <a href="https://line.me/R/msg/text/?Civilization 6 Complete DLC Version https://aeafxen.dpdns.org/202507221636/202507221636.en" target="_blank" class="hover:text-secondary">LINE</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-facebook text-primary mr-3"></i>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://aeafxen.dpdns.org/202507221636/202507221636.en" target="_blank" class="hover:text-primary">Facebook</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-whatsapp text-accent mr-3"></i>
+          <a href="whatsapp://send?text=Civilization 6 Complete DLC Version https://aeafxen.dpdns.org/202507221636/202507221636.en" target="_blank" class="hover:text-accent">Whatsapp</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-link text-secondary mr-3"></i>
+          <button id="copyLinkBtn" class="hover:text-secondary">分享链接</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="copySuccessModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="copySuccessModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="copySuccessModalContent">
+      <button id="closeCopySuccessModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">复制成功</h3>
+      <p class="text-gray-700">链接已复制到剪贴板</p>
+    </div>
+  </div>
+
+  <script>
+
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('bg-white/20', 'shadow-md');
+        header.classList.remove('bg-white/10');
+      } else {
+        header.classList.remove('bg-white/20', 'shadow-md');
+        header.classList.add('bg-white/10');
+      }
+    });
+
+
+    const emailBtn = document.getElementById('emailBtn');
+    const emailModal = document.getElementById('emailModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModal = document.getElementById('closeModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    function openModal() {
+      emailModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        modalContent.classList.add('flip-in');
+        modalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalFunc() {
+      modalContent.classList.add('flip-out');
+      setTimeout(() => {
+        emailModal.classList.add('opacity-0', 'pointer-events-none');
+        modalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    emailBtn.addEventListener('click', openModal);
+    closeModal.addEventListener('click', closeModalFunc);
+    modalOverlay.addEventListener('click', closeModalFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
+        closeModalFunc();
+      }
+    });
+
+    const shareBtn = document.getElementById('shareBtn');
+    const shareModal = document.getElementById('shareModal');
+    const shareModalContent = document.getElementById('shareModalContent');
+    const closeShareModal = document.getElementById('closeShareModal');
+    const shareModalOverlay = document.getElementById('shareModalOverlay');
+
+    function openShareModal() {
+      shareModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        shareModalContent.classList.add('flip-in');
+        shareModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeShareModalFunc() {
+      shareModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        shareModal.classList.add('opacity-0', 'pointer-events-none');
+        shareModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    shareBtn.addEventListener('click', openShareModal);
+    closeShareModal.addEventListener('click', closeShareModalFunc);
+    shareModalOverlay.addEventListener('click', closeShareModalFunc);
+
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const copySuccessModal = document.getElementById('copySuccessModal');
+    const copySuccessModalContent = document.getElementById('copySuccessModalContent');
+    const closeCopySuccessModal = document.getElementById('closeCopySuccessModal');
+    const copySuccessModalOverlay = document.getElementById('copySuccessModalOverlay');
+
+    function openCopySuccessModal() {
+      copySuccessModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        copySuccessModalContent.classList.add('flip-in');
+        copySuccessModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCopySuccessModalFunc() {
+      copySuccessModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        copySuccessModal.classList.add('opacity-0', 'pointer-events-none');
+        copySuccessModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    copyLinkBtn.addEventListener('click', () => {
+      const link = 'https://aeafxen.dpdns.org/202507221636/202507221636.en';
+      navigator.clipboard.writeText(link).then(() => {
+        openCopySuccessModal();
+      }).catch((err) => {
+        console.error('复制链接失败: ', err);
+      });
+    });
+
+    closeCopySuccessModal.addEventListener('click', closeCopySuccessModalFunc);
+    copySuccessModalOverlay.addEventListener('click', closeCopySuccessModalFunc);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !shareModal.classList.contains('opacity-0')) {
+        closeShareModalFunc();
+      }
+      if (e.key === 'Escape' && !copySuccessModal.classList.contains('opacity-0')) {
+        closeCopySuccessModalFunc();
+      }
+    });
+  </script>
+</body>
+</html>
