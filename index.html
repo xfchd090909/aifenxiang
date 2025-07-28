@@ -270,7 +270,7 @@
       randomBgBtn.disabled = true;
       
       // 生成带时间戳的URL避免缓存
-      const apiUrl = `https://www.loliapi.com/acg/`;
+      const apiUrl = `https://www.loliapi.com/acg/?t=${Date.now()}&r=${Math.random().toString(36).substring(2, 10)}`;
       
       // 创建临时图片测试链接有效性
       const testImg = new Image();
