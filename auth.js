@@ -1,5 +1,5 @@
 // 配置信息 - 替换为你的OAuth应用信息
-const CLIENT_ID = '你的GitHub OAuth应用Client ID';
+const CLIENT_ID = 'Ov23liZKdyg4XuQAiQxw';
 const REDIRECT_URI = 'https://github.com/xfchd090909/aifenxiang/callback.html';
 const SCOPES = 'user:email'; // 请求的权限
 
