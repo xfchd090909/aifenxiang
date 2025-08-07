@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center">登录</h2>
+        
+        <!-- 登录状态显示 -->
+        <div id="loginStatus" class="hidden mb-6 text-center">
+            <p id="userInfo" class="text-green-600"></p>
+            <button id="logoutBtn" class="mt-2 text-red-500 hover:underline">退出登录</button>
+        </div>
+        
+        <!-- 登录按钮 -->
+        <div id="loginBtnContainer" class="text-center">
+            <button id="githubLoginBtn" class="flex items-center justify-center bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors w-full">
+                <i class="fa fa-github mr-2"></i> 使用GitHub账号登录
+            </button>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
