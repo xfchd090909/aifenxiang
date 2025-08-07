@@ -1,6 +1,6 @@
 // 配置信息 - 替换为你的OAuth应用信息
 const CLIENT_ID = 'Ov23liZKdyg4XuQAiQxw';
-const REDIRECT_URI = 'https://github.com/xfchd090909/aifenxiang/callback.html';
+const REDIRECT_URI = 'https://xfchd090909.github.io/aifenxiang/callback.html';
 const SCOPES = 'user:email'; // 请求的权限
 
 // 检查用户是否已登录
