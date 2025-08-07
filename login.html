@@ -3,73 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aeafx-登录</title>
+    <title>GitHub Pages Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">登录面板</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center">登录</h2>
         
-        <!-- 登录状态显示区域 -->
-        <div id="loginStatus" class="text-center mb-6"></div>
+        <!-- 登录状态显示 -->
+        <div id="loginStatus" class="hidden mb-6 text-center">
+            <p id="userInfo" class="text-green-600"></p>
+            <button id="logoutBtn" class="mt-2 text-red-500 hover:underline">退出登录</button>
+        </div>
         
         <!-- 登录按钮 -->
-        <button id="loginBtn" class="w-full bg-gray-800 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors flex items-center justify-center">
-            <i class="fa fa-github mr-2"></i> 使用GitHub账号登录
-        </button>
-        
-        <!-- 登出按钮（默认隐藏） -->
-        <button id="logoutBtn" class="w-full bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition-colors mt-4 hidden">
-            退出登录
-        </button>
+        <div id="loginBtnContainer" class="text-center">
+            <button id="githubLoginBtn" class="flex items-center justify-center bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors w-full">
+                <i class="fa fa-github mr-2"></i> 使用GitHub账号登录
+            </button>
+        </div>
     </div>
 
-    <script>
-        // 替换为你的GitHub OAuth应用Client ID
-        const GITHUB_CLIENT_ID = "YOUR_GITHUB_CLIENT_ID";
-        // 替换为你的回调页面URL（与GitHub OAuth设置一致）
-        const REDIRECT_URI = "https://yourusername.github.io/your-repo/callback.html";
-
-        // 页面加载时检查登录状态
-        document.addEventListener('DOMContentLoaded', checkLoginStatus);
-
-        // 检查登录状态
-        function checkLoginStatus() {
-            const user = localStorage.getItem('githubUser');
-            const loginStatusEl = document.getElementById('loginStatus');
-            const loginBtn = document.getElementById('loginBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-
-            if (user) {
-                const userData = JSON.parse(user);
-                loginStatusEl.innerHTML = `
-                    <p class="text-green-600">已登录</p>
-                    <img src="${userData.avatar_url}" alt="用户头像" class="w-16 h-16 rounded-full mx-auto mt-2">
-                    <p class="mt-2">用户名: ${userData.login}</p>
-                `;
-                loginBtn.classList.add('hidden');
-                logoutBtn.classList.remove('hidden');
-            } else {
-                loginStatusEl.innerHTML = '<p class="text-gray-500">未登录</p>';
-                loginBtn.classList.remove('hidden');
-                logoutBtn.classList.add('hidden');
-            }
-        }
-
-        // 登录按钮点击事件
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            // 构建GitHub授权URL
-            const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=user`;
-            window.location.href = githubAuthUrl;
-        });
-
-        // 登出按钮点击事件
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('githubToken');
-            localStorage.removeItem('githubUser');
-            checkLoginStatus();
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>
