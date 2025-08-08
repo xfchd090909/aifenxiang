@@ -4,7 +4,7 @@ exports.handler = async (event) => {
     // 配置参数
     const clientId = 'Ov23lid4wahWfAxWQJAp';
     const clientSecret = '1f6ffd675faec7ee90fbb1aa5c8266d22d3a524e';
-    const redirectUri = 'https://aeafx.netlify.app/callback.html';
+    const redirectUri = 'https://aeafx.dpdns.org/callback.html';
     
     try {
         // 1. 用授权码交换访问令牌
