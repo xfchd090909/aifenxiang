@@ -80,12 +80,22 @@
         <i class="fa fa-home fa-lg"></i>
       </a>
 
-    <div class="flex items-center space-x-13">
-        <a href="https://aeafx.dpdns.org/login" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
-          <i class="fa fa-link mr-1"></i> 我
-        </a>
+    <div id="my" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+     <div class="absolute inset-0 bg-black/50" id="me"></div>
+     <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="me">
+      <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">暂未开放</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-envelope-o text-primary mr-3"></i>
+          <span>此功能正在测试,暂时无法使用该功能</span>
+        </div>
+      </div>
     </div>
-    
+  </div>
+
     <div class="relative w-64 md:w-80">
       <input type="text" id="searchInput" placeholder="搜索文章、标签..." class="w-full py-2 px-4 pr-10 rounded-full bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm transition-all">
       <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors">
@@ -205,6 +215,8 @@
 
     const emailBtn = document.getElementById('emailBtn');
     const emailModal = document.getElementById('emailModal');
+    const my = document.getElementById('my');
+    const me = document.getElementById('me');
     const modalContent = document.getElementById('modalContent');
     const closeModal = document.getElementById('closeModal');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -322,6 +334,7 @@
   </script>
 </body>
 </html>
+
 
 
 
