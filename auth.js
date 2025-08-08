@@ -1,7 +1,7 @@
 // 配置信息 - 替换为你的OAuth应用信息
 const CLIENT_ID = 'Ov23liZKdyg4XuQAiQxw';
 const REDIRECT_URI = 'https://aeafx.dpdns.org/callback.html';
-const SCOPES = 'user:email'; // 请求的权限
+const SCOPES = 'user:email read:user'; // 请求的权限
 
 // 检查用户是否已登录
 function checkLoginStatus() {
