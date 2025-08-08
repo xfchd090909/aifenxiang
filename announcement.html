@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>爱分享公告</title>
+  <title>爱分享</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <script>
@@ -44,13 +44,6 @@
       .flip-out {
         animation: flipOut 0.6s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
       }
-      .card-hover {
-        transition: all 0.3s ease;
-      }
-      .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
     }
 
     @keyframes gradient {
@@ -73,43 +66,50 @@
   </style>
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10"></header>
-  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <a href="https://aeafx.netlify.app" class="text-white/70 hover:text-white transition-colors mr-4">
-        <i class="fa fa-home fa-lg"></i>
-      </a>
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex items-center space-x-7">
+        <a href="https://aeafx.netlify.app" class="text-white/70 hover:text-white transition-colors">
+          <i class="fa fa-home fa-lg"></i>
+        </a>
 
-    <div class="flex items-center space-x-3">
-      <a href="https://aeafx.netlify.app/login" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
-        <i class="fa fa-link mr-1"></i> 我
-      </a>
+        <div class="flex items-center space-x-3">
+         <a href="https://aeafx.netlify.app/login" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors ml-2">
+           <i class="fa fa-link mr-1"></i> 我
+         </a>
+        </div>
+      </div>
     </div>
+  </header>
 
-  <main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16">
-    <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 text-center text-shadow tracking-tight">
-      爱分享公告
-    </h1>
-    <div class="article-content max-w-4xl mx-auto px-6 py-12 md:px-12 md:py-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-6">
+<main class="min-h-screen flex flex-col items-center justify-center pt-20 pb-16">
+  <div class="max-w-7xl w-full px-4 sm:px-6 lg:px-8">
+    <div class="article-container bg-transparent rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div class="relative h-64 md:h-80 lg:h-96 overflow-hidden rounded-2xl shadow-lg">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
         <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4 scroll-mt-20">2025年8月8日:</h3>
         <p class="lead text-xl text-gray-700 mb-8">
             从即日起"https://aeafx.dpdns.org"域名不再作为博客官网,修改为"https://aeafx.netlify.app",因域名提供方问题,旧域名将在180天后自动注销,在注销前均可以访问旧域名,但是不再此旧域名提供文章更新
         </p>
+        </div>
+      </div>
     </div>
-  </main>
+  </div>
+</main>
+
 
   <footer class="py-8 px-4 bg-black/20 text-center">
     <div class="container mx-auto">
       <p class="text-lg mb-2">&copy; 2025 爱分享</p>
-      <p class="text-sm text-white/60 mb-4">所有素材均来自网络，如有侵权联系我删除</p>
+      <p class="text-sm text-white/60 mb-4">所有素材均来自互联网，如有侵权请联系本人删除。</p>
       <button id="emailBtn" class="text-white/80 hover:text-white transition-colors">
         <i class="fa fa-envelope-o text-xl"></i>
       </button>
 
       <div class="mt-4">
-        <a href="https://aeafxen.dpdns.org/announcement.html" class="text-white/80 hover:text-white transition-colors mx-2">English</a>
+        <a href="https://aeafxen.dpdns.org/202507111224/202507111224.en" class="text-white/80 hover:text-white transition-colors mx-2">English</a>
         <span class="text-white/80">|</span>
-        <a href="https://aeafx.netlify.app/announcement.html" class="text-white/80 hover:text-white transition-colors mx-2">中文</a>
+        <a href="https://aeafx.netlify.app/202507111224/202507111224" class="text-white/80 hover:text-white transition-colors mx-2">中文</a>
         <span class="text-white/80">|</span>
         <a href="https://aeafx.netlify.app/announcement.html" class="text-white/80 hover:text-white transition-colors mx-2">公告</a>
       </div>
@@ -126,18 +126,62 @@
       <div class="space-y-3 text-gray-700">
         <div class="flex items-center">
           <i class="fa fa-envelope-o text-primary mr-3"></i>
-          <span>163邮箱: teada2024@163.com</span>
+          <span>163邮箱：teada2024@163.com</span>
         </div>
         <div class="flex items-center">
           <i class="fa fa-envelope-o text-accent mr-3"></i>
-          <span>Gmail: xfchd090909@gmail.com</span>
+          <span> Gmail：xfchd090909@gmail.com</span>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
+  <div id="shareModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="shareModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="shareModalContent">
+      <button id="closeShareModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">分享到</h3>
+      <div class="space-y-3 text-gray-700">
+        <div class="flex items-center">
+          <i class="fa fa-telegram text-accent mr-3"></i>
+          <a href="https://t.me/share/url?url=https://aeafx.netlify.app/202507111224/202507111224&text=Musk's GrokAI Upsets Japanese Netizens Collectively - X Platform's AI Sparks Controversy with Inappropriate Remarks" target="_blank" class="hover:text-accent">Telegram</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-commenting text-secondary mr-3"></i>
+          <a href="https://line.me/R/msg/text/?Musk's GrokAI Upsets Japanese Netizens Collectively - X Platform's AI Sparks Controversy with Inappropriate Remarks https://aeafx.netlify.app/202507111224/202507111224" target="_blank" class="hover:text-secondary">LINE</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-facebook text-primary mr-3"></i>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://aeafx.netlify.app/202507111224/202507111224" target="_blank" class="hover:text-primary">Facebook</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-whatsapp text-accent mr-3"></i>
+          <a href="whatsapp://send?text=Musk's GrokAI Upsets Japanese Netizens Collectively - X Platform's AI Sparks Controversy with Inappropriate Remarks https://aeafx.netlify.app/202507111224/202507111224" target="_blank" class="hover:text-accent">Whatsapp</a>
+        </div>
+        <div class="flex items-center">
+          <i class="fa fa-link text-secondary mr-3"></i>
+          <button id="copyLinkBtn" class="hover:text-secondary">分享链接</button>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 mt-4">由于国内软件审核机制严格，网站目前暂不提供微信、QQ等部分软件的分享方式。您可以使用分享链接来分享本文。</p>
+    </div>
+  </div>
 
+  <div id="copySuccessModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50" id="copySuccessModalOverlay"></div>
+    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="copySuccessModalContent">
+      <button id="closeCopySuccessModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fa fa-times"></i>
+      </button>
+      <h3 class="text-xl font-bold text-gray-800 mb-4">复制成功</h3>
+      <p class="text-gray-700">链接已复制到剪贴板。</p>
+    </div>
+  </div>
+
+  <script>
+    
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 50) {
@@ -178,92 +222,82 @@
     closeModal.addEventListener('click', closeModalFunc);
     modalOverlay.addEventListener('click', closeModalFunc);
 
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
         closeModalFunc();
       }
     });
 
+    const shareBtn = document.getElementById('shareBtn');
+    const shareModal = document.getElementById('shareModal');
+    const shareModalContent = document.getElementById('shareModalContent');
+    const closeShareModal = document.getElementById('closeShareModal');
+    const shareModalOverlay = document.getElementById('shareModalOverlay');
 
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const mainContent = document.getElementById('mainContent');
-    const originalContent = mainContent.innerHTML;
-    let articlesData = []; 
-    
- 
-    document.addEventListener('DOMContentLoaded', function() {
-      const articleItems = document.querySelectorAll('.article-item');
-      articleItems.forEach(item => {
-        articlesData.push(item.outerHTML);
+    function openShareModal() {
+      shareModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        shareModalContent.classList.add('flip-in');
+        shareModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeShareModalFunc() {
+      shareModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        shareModal.classList.add('opacity-0', 'pointer-events-none');
+        shareModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    shareBtn.addEventListener('click', openShareModal);
+    closeShareModal.addEventListener('click', closeShareModalFunc);
+    shareModalOverlay.addEventListener('click', closeShareModalFunc);
+
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const copySuccessModal = document.getElementById('copySuccessModal');
+    const copySuccessModalContent = document.getElementById('copySuccessModalContent');
+    const closeCopySuccessModal = document.getElementById('closeCopySuccessModal');
+    const copySuccessModalOverlay = document.getElementById('copySuccessModalOverlay');
+
+    function openCopySuccessModal() {
+      copySuccessModal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        copySuccessModalContent.classList.add('flip-in');
+        copySuccessModalContent.classList.remove('opacity-0');
+      }, 100);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCopySuccessModalFunc() {
+      copySuccessModalContent.classList.add('flip-out');
+      setTimeout(() => {
+        copySuccessModal.classList.add('opacity-0', 'pointer-events-none');
+        copySuccessModalContent.classList.remove('flip-in', 'flip-out');
+      }, 600);
+      document.body.style.overflow = '';
+    }
+
+    copyLinkBtn.addEventListener('click', () => {
+      const link = 'https://aeafx.netlify.app/202507111224/202507111224';
+      navigator.clipboard.writeText(link).then(() => {
+        openCopySuccessModal();
+      }).catch((err) => {
+        console.error('复制链接失败: ', err);
       });
     });
 
+    closeCopySuccessModal.addEventListener('click', closeCopySuccessModalFunc);
+    copySuccessModalOverlay.addEventListener('click', closeCopySuccessModalFunc);
 
-    let searchTimeout;
-    
-
-    function performSearch() {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        const keyword = searchInput.value.trim().toLowerCase();
-        
-        if (keyword === '') {
-
-          mainContent.innerHTML = originalContent;
-          return;
-        }
-        
-
-        mainContent.innerHTML = `
-          <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 text-center text-shadow tracking-tight">
-            爱分享
-          </h1>
-          <p class="text-xl text-white/80 mb-8 text-center max-w-2xl">
-            搜索结果
-          </p>
-        `;
-        
-        let hasResults = false;
-        
-
-        articlesData.forEach(articleHTML => {
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = articleHTML;
-          const article = tempDiv.querySelector('.article-item');
-          
-          const title = article.querySelector('h2').textContent.toLowerCase();
-          const content = article.querySelector('p').textContent.toLowerCase();
-          
-          if (title.includes(keyword) || content.includes(keyword)) {
-            mainContent.appendChild(article);
-            hasResults = true;
-          }
-        });
-        
-        if (!hasResults) {
-          mainContent.innerHTML += `
-            <div class="w-full max-w-3xl mx-4 bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 shadow-lg text-center">
-              <i class="fa fa-search fa-4x mb-4 text-white/60"></i>
-              <h3 class="text-xl font-semibold mb-2">没有找到匹配的结果</h3>
-              <p class="text-white/70">请尝试使用不同的关键词或检查拼写</p>
-            </div>
-          `;
-        }
-      }, 300); 
-    }
-
-
-    searchInput.addEventListener('input', performSearch);
-
-
-    searchBtn.addEventListener('click', performSearch);
-
-
-    searchInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        performSearch();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !shareModal.classList.contains('opacity-0')) {
+        closeShareModalFunc();
+      }
+      if (e.key === 'Escape' && !copySuccessModal.classList.contains('opacity-0')) {
+        closeCopySuccessModalFunc();
       }
     });
   </script>
