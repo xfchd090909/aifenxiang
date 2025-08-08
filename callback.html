@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+        <p class="text-gray-700">Processing your login...</p>
+    </div>
+
+    <script>
+        // 从URL获取查询参数
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 处理GitHub回调
+        async function handleCallback() {
+            const code = getQueryParam('code');
+            const error = getQueryParam('error');
+
+            if (error) {
+                alert(`Login failed: ${error}`);
+                window.location.href = 'login.html';
+                return;
+            }
+
+            if (!code) {
+                alert('No authorization code received');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                // 调用后端服务交换令牌并获取用户信息
+                const response = await fetch('https://your-backend-function-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+
+                const data = await response.json();
+
+                if (data.user) {
+                    // 保存用户信息到localStorage
+                    localStorage.setItem('githubUser', JSON.stringify(data.user));
+                    // 重定向到主页
+                    window.location.href = 'login.html';
+                } else {
+                    throw new Error(data.error || 'Failed to get user information');
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                alert(`Login failed: ${err.message}`);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 页面加载时处理回调
+        document.addEventListener('DOMContentLoaded', handleCallback);
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h1 class="text-2xl font-bold text-center mb-6">GitHub Login</h1>
+        
+        <div id="login-section" class="text-center">
+            <p class="mb-4 text-gray-600">Please log in with your GitHub account</p>
+            <button id="github-login" class="flex items-center justify-center w-full bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-700 transition">
+                <i class="fa fa-github mr-2"></i> Login with GitHub
+            </button>
+        </div>
+        
+        <div id="user-section" class="hidden">
+            <div class="text-center mb-4">
+                <img id="user-avatar" src="" alt="User avatar" class="w-24 h-24 rounded-full mx-auto mb-2">
+                <h2 id="user-name" class="text-xl font-semibold"></h2>
+                <p id="user-login" class="text-gray-600"></p>
+            </div>
+            <button id="logout" class="w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 检查用户是否已登录
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('githubUser');
+            if (user) {
+                showUserProfile(JSON.parse(user));
+            } else {
+                setupLoginButton();
+            }
+            
+            document.getElementById('logout').addEventListener('click', logout);
+        });
+
+        // 配置GitHub OAuth参数
+        const clientId = 'YOUR_GITHUB_CLIENT_ID';
+        const redirectUri = 'https://YOUR_USERNAME.github.io/YOUR_REPO/callback.html';
+        const scope = 'user';
+        const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
+
+        // 设置登录按钮
+        function setupLoginButton() {
+            document.getElementById('github-login').addEventListener('click', () => {
+                window.location.href = authUrl;
+            });
+        }
+
+        // 显示用户信息
+        function showUserProfile(user) {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('user-section').classList.remove('hidden');
+            document.getElementById('user-avatar').src = user.avatar_url;
+            document.getElementById('user-name').textContent = user.name || 'No name';
+            document.getElementById('user-login').textContent = `@${user.login}`;
+        }
+
+        // 登出功能
+        function logout() {
+            localStorage.removeItem('githubUser');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
