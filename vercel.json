@@ -1,0 +1,25 @@
+{
+  "headers": [
+    {
+      "source": "/api/(.*)", // 匹配所有 /api 路径下的接口
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://aeafx.dpdns.org/callback.html" // 允许的前端域名
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" // 允许的请求方法
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" // 允许的请求头
+        }
+      ]
+    }
+  ]
+}
