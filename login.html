@@ -74,11 +74,11 @@
                         <span class="px-3 text-gray-500 text-sm">或</span>
                         <div class="flex-grow h-px bg-gray-300"></div>
                     </div>
-                    
-                    <button id="googleLogin" class="w-full bg-gray-800 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center mb-3">
-                        <i class="fa fa-google mr-2 text-xl"></i>
-                        使用Google登录
-                    </button>
+
+                        <!-- Google登录按钮 -->
+                    <div id="googleLogin" class="w-full">
+                        <!-- Google登录按钮将在这里渲染 -->
+                    </div>
                     
                     <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
@@ -165,7 +165,6 @@
         // 配置参数
         const clientId = 'Ov23lid4wahWfAxWQJAp';
         const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
-        // Google登录配置 - 请替换为你的Google Client ID
         const googleClientId = '447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com';
         
         // DOM元素
@@ -226,8 +225,8 @@
         // 初始化Google登录
         function initGoogleLogin() {
             google.accounts.id.initialize({
-                client_id: '447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com'
-                callback: 'https://aeafx.netlify.app/callback.html'
+                client_id: "447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com",
+                callback: "https://xfchd090909.github.io/aifenxiang/callback.html",
                 ux_mode: 'popup', // 使用弹窗模式，避免页面跳转
                 auto_select: false
             });
