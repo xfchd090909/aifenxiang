@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>爱分享</title>
+    <title>爱分享 - 登录</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- 引入Google登录SDK -->
-    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -16,7 +16,7 @@
                         primary: '#6366F1',
                         secondary: '#EC4899',
                         accent: '#8B5CF6',
-                        google: '#4285F4' // 添加Google品牌色
+                        google: '#4285F4' // Google品牌色
                     },
                 }
             }
@@ -43,6 +43,40 @@
             40% { transform: perspective(800px) rotateY(20deg); }
             100% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
         }
+
+        /* 自定义Google登录按钮样式 */
+        .custom-google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 1px solid #dadce0;
+            color: #202124;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-family: 'Roboto', arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        
+        .custom-google-btn:hover {
+            background-color: #f7f8fa;
+            border-color: #c6c9ce;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .custom-google-btn:active {
+            background-color: #ebeced;
+        }
+        
+        .google-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
@@ -68,21 +102,14 @@
                         使用Github登录
                     </button>
                     
-                    <!-- 登录方式分隔线 -->
-                    <div class="my-4 flex items-center">
-                        <div class="flex-grow h-px bg-gray-300"></div>
-                        <span class="px-3 text-gray-500 text-sm">或</span>
-                        <div class="flex-grow h-px bg-gray-300"></div>
+                    <!-- 自定义Google登录按钮 -->
+                    <div class="flex justify-center mb-3">
+                        <button id="customGoogleLogin" class="custom-google-btn w-[80%] md:w-[70%]">
+                            <i class="fa fa-gogle mr-2 text-xl"></i>
+                            <span>使用Google登录</span>
+                        </button>
                     </div>
 
-                        <!-- Google登录按钮 -->
-                    <div class="flex justify-center mb-3">
-                        <div id="googleLogin" class="google-login-white w-[80%] md:w-[70%]">
-                        <!-- Google登录按钮将在这里渲染 -->
-                        </div>
-                    </div>
-                    
-                    <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
                         <div class="border-t pt-4">
                             <h3 class="text-lg font-medium text-gray-800 mb-2">你已登录:</h3>
@@ -150,7 +177,7 @@
                     取消
                 </button>
                 <button id="confirmLogout" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-accent transition-colors">
-                    确认退出
+                    确认
                 </button>
             </div>
         </div>
@@ -164,13 +191,15 @@
     </footer>
 
     <script>
-        // 配置参数
+        // 配置参数 - 替换为你的实际客户端ID
         const clientId = 'Ov23lid4wahWfAxWQJAp';
-        const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
+        const redirectUri = 'https://aeafx.netlify.app/callback.html';
+        // 请替换为你的Google客户端ID
         const googleClientId = '447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com';
         
         // DOM元素
         const githubLoginBtn = document.getElementById('githubLogin');
+        const customGoogleLoginBtn = document.getElementById('customGoogleLogin');
         const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
@@ -178,7 +207,7 @@
         const userAvatar = document.getElementById('userAvatar');
         const sensitiveContentToggle = document.getElementById('sensitiveContentToggle');
         
-        // 弹窗元素 - 敏感内容
+        // 弹窗元素
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalContent = document.getElementById('confirmModalContent');
         const closeConfirmModal = document.getElementById('closeConfirmModal');
@@ -186,7 +215,6 @@
         const cancelToggle = document.getElementById('cancelToggle');
         const confirmToggle = document.getElementById('confirmToggle');
         
-        // 弹窗元素 - 退出登录
         const logoutModal = document.getElementById('logoutModal');
         const logoutModalContent = document.getElementById('logoutModalContent');
         const closeLogoutModal = document.getElementById('closeLogoutModal');
@@ -194,87 +222,147 @@
         const cancelLogout = document.getElementById('cancelLogout');
         const confirmLogout = document.getElementById('confirmLogout');
         
-        // 存储当前开关状态，用于处理确认弹窗
+        // 存储当前开关状态
         let currentToggleState = false;
+        // Google授权对象
+        let googleAuth;
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查登录状态
+            checkLoginStatus();
+            // 初始化Google登录
+            initGoogleAuth();
+            
+            // 绑定自定义Google登录按钮事件
+            customGoogleLoginBtn.addEventListener('click', handleCustomGoogleLogin);
+        });
+        
+        // 初始化Google授权
+        function initGoogleAuth() {
+            // 确保Google SDK已加载
+            if (typeof google === 'undefined' || !google.accounts) {
+                console.error('Google登录SDK未加载，1秒后重试');
+                setTimeout(initGoogleAuth, 1000);
+                return;
+            }
+            
+            // 初始化Google授权客户端
+            googleAuth = google.accounts.oauth2.initTokenClient({
+                client_id: "447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com",
+                scope: 'openid email profile',
+                callback: "https://aeafx.netlify.app/callback.html", // 授权成功后的回调函数
+                ux_mode: 'popup' // 使用弹窗模式
+            });
+            
+            console.log('Google授权客户端初始化完成');
+        }
+        
+        // 处理自定义Google登录按钮点击
+        function handleCustomGoogleLogin() {
+            if (!googleAuth) {
+                console.error('Google授权客户端未初始化');
+                alert('登录服务未准备好，请稍后重试');
+                return;
+            }
+            
+            // 触发Google登录流程
+            googleAuth.requestAccessToken();
+        }
+        
+        // 处理Google登录回调
+        function handleGoogleCallback(response) {
+            console.log('Google登录回调响应:', response);
+            
+            // 检查是否有错误
+            if (response.error) {
+                console.error('Google登录错误:', response.error);
+                alert('登录失败: ' + (response.error_description || '未知错误'));
+                return;
+            }
+            
+            if (response.credential) {
+                try {
+                    // 解析JWT令牌获取用户信息
+                    const base64Url = response.credential.split('.')[1];
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    const jsonPayload = decodeURIComponent(
+                        atob(base64)
+                            .split('')
+                            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                            .join('')
+                    );
+                    
+                    const userData = JSON.parse(jsonPayload);
+                    console.log('解析到的Google用户信息:', userData);
+                    
+                    // 构建需要保存的用户信息对象
+                    const userToSave = {
+                        id: userData.sub, // Google用户唯一ID
+                        name: userData.name,
+                        email: userData.email,
+                        picture: userData.picture,
+                        provider: 'google',
+                        loginTime: new Date().toISOString() // 记录登录时间
+                    };
+                    
+                    // 保存到本地存储
+                    localStorage.setItem('googleUser', JSON.stringify(userToSave));
+                    console.log('Google用户信息已保存到本地存储');
+                    
+                    // 刷新登录状态，显示用户信息
+                    checkLoginStatus();
+                    
+                } catch (error) {
+                    console.error('解析Google用户信息失败:', error);
+                    alert('登录失败，请重试');
+                }
+            } else {
+                console.error('Google登录失败，未获取到凭证');
+                alert('登录失败，未获取到授权凭证');
+            }
+        }
         
         // 检查用户是否已登录
         function checkLoginStatus() {
-            const user = localStorage.getItem('githubUser') || localStorage.getItem('googleUser');
+            // 从本地存储获取用户信息
+            const githubUser = localStorage.getItem('githubUser');
+            const googleUser = localStorage.getItem('googleUser');
             const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
             
-            if (user) {
-                const userData = JSON.parse(user);
-                // 显示用户信息
+            // 优先检查GitHub用户，再检查Google用户
+            let userData = null;
+            if (githubUser) {
+                userData = JSON.parse(githubUser);
+            } else if (googleUser) {
+                userData = JSON.parse(googleUser);
+            }
+            
+            if (userData) {
+                // 显示用户信息区域
                 userInfo.classList.remove('hidden');
+                // 隐藏登录按钮
                 githubLoginBtn.classList.add('hidden');
-                document.getElementById('googleLogin').classList.add('hidden');
+                customGoogleLoginBtn.parentElement.classList.add('hidden');
+                
+                // 填充用户信息
                 userName.textContent = userData.name || userData.login || userData.email;
                 userLogin.textContent = userData.login ? `@${userData.login}` : userData.email;
                 userAvatar.src = userData.avatar_url || userData.picture;
-                userAvatar.alt = `${userData.name || userData.login}'s avatar`;
+                userAvatar.alt = `${userData.name || userData.login || userData.email}'s avatar`;
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
                 currentToggleState = showSensitive;
             } else {
-                // 显示登录按钮
+                // 隐藏用户信息，显示登录按钮
                 userInfo.classList.add('hidden');
                 githubLoginBtn.classList.remove('hidden');
-                document.getElementById('googleLogin').classList.remove('hidden');
+                customGoogleLoginBtn.parentElement.classList.remove('hidden');
             }
         }
         
-        // 初始化Google登录
-        function initGoogleLogin() {
-            google.accounts.id.initialize({
-                client_id: "447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com",
-                callback: "https://aeafx.netlify.app/callback.html",
-                ux_mode: 'popup', // 使用弹窗模式，避免页面跳转
-                auto_select: false
-            });
-            
-            // 渲染Google登录按钮
-            google.accounts.id.renderButton(
-                document.getElementById('googleLogin'),
-                { 
-                    theme: 'filled_blue',
-                    size: 'large',
-                    shape: 'rectangular',
-                    text: 'signin_with',
-                    logo_alignment: 'left',
-                    width: '100%'
-                }
-            );
-        }
-        
-        // 处理Google登录回调
-        function handleGoogleCallback(response) {
-            if (response.credential) {
-                // 解析JWT获取用户信息
-                const base64Url = response.credential.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(
-                    atob(base64)
-                        .split('')
-                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                        .join('')
-                );
-                
-                const userData = JSON.parse(jsonPayload);
-                // 存储Google用户信息
-                localStorage.setItem('googleUser', JSON.stringify({
-                    name: userData.name,
-                    email: userData.email,
-                    picture: userData.picture,
-                    provider: 'google'
-                }));
-                
-                // 刷新登录状态
-                checkLoginStatus();
-            }
-        }
-        
-        // 打开敏感内容确认弹窗
+        // 弹窗控制函数
         function openConfirmModal() {
             confirmModal.classList.remove('opacity-0', 'pointer-events-none');
             setTimeout(() => {
@@ -284,7 +372,6 @@
             document.body.style.overflow = 'hidden';
         }
         
-        // 关闭敏感内容确认弹窗
         function closeConfirmModalFunc() {
             confirmModalContent.classList.add('flip-out');
             setTimeout(() => {
@@ -294,7 +381,6 @@
             document.body.style.overflow = '';
         }
         
-        // 打开退出登录确认弹窗
         function openLogoutModal() {
             logoutModal.classList.remove('opacity-0', 'pointer-events-none');
             setTimeout(() => {
@@ -304,7 +390,6 @@
             document.body.style.overflow = 'hidden';
         }
         
-        // 关闭退出登录确认弹窗
         function closeLogoutModalFunc() {
             logoutModalContent.classList.add('flip-out');
             setTimeout(() => {
@@ -314,50 +399,49 @@
             document.body.style.overflow = '';
         }
         
-        // 发起GitHub登录
+        // 登录和退出功能
         function loginWithGitHub() {
-            // 生成随机state参数用于CSRF保护
             const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             localStorage.setItem('githubOAuthState', state);
-            
-            // 构建授权URL
             const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=user`;
             window.location.href = authUrl;
         }
         
-        // 登出
         function logout() {
+            // 获取当前登录的用户
+            const googleUser = localStorage.getItem('googleUser');
+            
             // 清除所有登录相关数据
             localStorage.removeItem('githubUser');
             localStorage.removeItem('googleUser');
             localStorage.removeItem('githubOAuthState');
-            localStorage.removeItem('showSensitiveContent');
             
-            // 如果是Google登录，调用Google登出
-            if (window.google && window.google.accounts) {
-                google.accounts.id.disableAutoSelect();
+            // 如果是Google登录，撤销令牌
+            if (googleUser && window.google && window.google.accounts) {
+                const userData = JSON.parse(googleUser);
+                google.accounts.oauth2.revoke(
+                    googleAuth?.tokenInfo?.access_token || '',
+                    () => console.log('Google令牌已撤销')
+                );
             }
             
+            // 刷新登录状态
             checkLoginStatus();
             closeLogoutModalFunc();
         }
         
-        // 处理敏感内容开关变化
+        // 敏感内容开关处理
         function handleSensitiveToggleChange(e) {
-            // 如果是要开启，显示确认弹窗
             if (e.target.checked) {
-                // 保存当前状态，在用户取消时恢复
                 currentToggleState = false;
                 e.preventDefault();
                 openConfirmModal();
             } else {
-                // 关闭时直接操作，不显示确认弹窗
                 localStorage.setItem('showSensitiveContent', 'false');
                 currentToggleState = false;
             }
         }
         
-        // 确认开启敏感内容显示
         function confirmOpenSensitive() {
             localStorage.setItem('showSensitiveContent', 'true');
             sensitiveContentToggle.checked = true;
@@ -365,7 +449,6 @@
             closeConfirmModalFunc();
         }
         
-        // 取消敏感内容操作，恢复之前的状态
         function cancelToggleAction() {
             sensitiveContentToggle.checked = currentToggleState;
             closeConfirmModalFunc();
@@ -373,22 +456,19 @@
         
         // 事件监听
         githubLoginBtn.addEventListener('click', loginWithGitHub);
-        logoutBtn.addEventListener('click', openLogoutModal); // 点击退出按钮先打开弹窗
+        logoutBtn.addEventListener('click', openLogoutModal);
         sensitiveContentToggle.addEventListener('change', handleSensitiveToggleChange);
         
-        // 敏感内容弹窗事件
         closeConfirmModal.addEventListener('click', cancelToggleAction);
         confirmModalOverlay.addEventListener('click', cancelToggleAction);
         cancelToggle.addEventListener('click', cancelToggleAction);
         confirmToggle.addEventListener('click', confirmOpenSensitive);
         
-        // 退出登录弹窗事件
         closeLogoutModal.addEventListener('click', closeLogoutModalFunc);
         logoutModalOverlay.addEventListener('click', closeLogoutModalFunc);
         cancelLogout.addEventListener('click', closeLogoutModalFunc);
         confirmLogout.addEventListener('click', logout);
         
-        // ESC键关闭弹窗
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (!confirmModal.classList.contains('opacity-0')) {
@@ -399,18 +479,7 @@
                 }
             }
         });
-        
-        // 页面加载时初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            checkLoginStatus();
-            // 初始化Google登录按钮
-            if (window.google && window.google.accounts) {
-                initGoogleLogin();
-            } else {
-                // 如果Google SDK加载延迟，重试初始化
-                setTimeout(initGoogleLogin, 1000);
-            }
-        });
     </script>
 </body>
 </html>
+    
