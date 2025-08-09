@@ -107,8 +107,8 @@
             <button id="closeConfirmModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
                 <i class="fa fa-times"></i>
             </button>
-            <h3 class="text-xl font-bold text-gray-800 mb-4">确认关闭</h3>
-            <p class="text-gray-700 mb-6">关闭"展示敏感内容"后，您将无法查看含有敏感内容的文章。是否确认关闭？</p>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">确认开启</h3>
+            <p class="text-gray-700 mb-6">是否要开启"展示敏感内容"，必须确保有承受能力</p>
             <div class="flex justify-end space-x-3">
                 <button id="cancelToggle" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
                     取消
@@ -149,6 +149,9 @@
         const cancelToggle = document.getElementById('cancelToggle');
         const confirmToggle = document.getElementById('confirmToggle');
         
+        // 存储当前开关状态，用于处理确认弹窗
+        let currentToggleState = false;
+        
         // 检查用户是否已登录
         function checkLoginStatus() {
             const user = localStorage.getItem('githubUser');
@@ -166,6 +169,7 @@
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
+                currentToggleState = showSensitive;
             } else {
                 // 显示登录按钮
                 userInfo.classList.add('hidden');
@@ -214,20 +218,30 @@
         
         // 处理敏感内容开关变化
         function handleSensitiveToggleChange(e) {
-            // 如果是要关闭，显示确认弹窗
-            if (!e.target.checked) {
+            // 如果是要开启，显示确认弹窗
+            if (e.target.checked) {
+                // 保存当前状态，在用户取消时恢复
+                currentToggleState = false;
                 e.preventDefault();
                 openConfirmModal();
             } else {
-                // 直接开启
-                localStorage.setItem('showSensitiveContent', 'true');
+                // 关闭时直接操作，不显示确认弹窗
+                localStorage.setItem('showSensitiveContent', 'false');
+                currentToggleState = false;
             }
         }
         
-        // 确认关闭敏感内容显示
-        function confirmCloseSensitive() {
-            localStorage.setItem('showSensitiveContent', 'false');
-            sensitiveContentToggle.checked = false;
+        // 确认开启敏感内容显示
+        function confirmOpenSensitive() {
+            localStorage.setItem('showSensitiveContent', 'true');
+            sensitiveContentToggle.checked = true;
+            currentToggleState = true;
+            closeConfirmModalFunc();
+        }
+        
+        // 取消操作，恢复之前的状态
+        function cancelToggleAction() {
+            sensitiveContentToggle.checked = currentToggleState;
             closeConfirmModalFunc();
         }
         
@@ -235,15 +249,15 @@
         githubLoginBtn.addEventListener('click', loginWithGitHub);
         logoutBtn.addEventListener('click', logout);
         sensitiveContentToggle.addEventListener('change', handleSensitiveToggleChange);
-        closeConfirmModal.addEventListener('click', closeConfirmModalFunc);
-        confirmModalOverlay.addEventListener('click', closeConfirmModalFunc);
-        cancelToggle.addEventListener('click', closeConfirmModalFunc);
-        confirmToggle.addEventListener('click', confirmCloseSensitive);
+        closeConfirmModal.addEventListener('click', cancelToggleAction);
+        confirmModalOverlay.addEventListener('click', cancelToggleAction);
+        cancelToggle.addEventListener('click', cancelToggleAction);
+        confirmToggle.addEventListener('click', confirmOpenSensitive);
         
         // ESC键关闭弹窗
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !confirmModal.classList.contains('opacity-0')) {
-                closeConfirmModalFunc();
+                cancelToggleAction();
             }
         });
         
