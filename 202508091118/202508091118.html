@@ -274,6 +274,11 @@
         content.classList.add('content-blur');
         promptText.textContent = '文章内含有敏感内容，如需查看请登录账号启动展示敏感内容';
         handleBtn.textContent = '前往登录';
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'none';
+        articleText.style.webkitUserSelect = 'none';
+        articleText.style.mozUserSelect = 'none';
+        articleText.style.msUserSelect = 'none';
         handleBtn.onclick = () => {
           window.location.href = 'https://aeafx.netlify.app/login';
         };
@@ -284,6 +289,11 @@
         content.classList.add('content-blur');
         promptText.textContent = '文章内含有敏感内容，如需查看请前往我 - 启动“展示敏感内容”';
         handleBtn.textContent = '前往设置';
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'none';
+        articleText.style.webkitUserSelect = 'none';
+        articleText.style.mozUserSelect = 'none';
+        articleText.style.msUserSelect = 'none'
         handleBtn.onclick = () => {
         window.location.href = 'https://aeafx.netlify.app/login';
         };
@@ -292,6 +302,11 @@
       // 已登录且已开启敏感内容显示
       else {
         content.classList.remove('content-blur');
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'auto';
+        articleText.style.webkitUserSelect = 'auto';
+        articleText.style.mozUserSelect = 'auto';
+        articleText.style.msUserSelect = 'auto';
       }
     }
     
