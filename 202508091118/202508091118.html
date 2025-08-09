@@ -184,7 +184,7 @@
       </button>
       <h3 class="text-xl font-bold text-gray-800 mb-4">敏感内容提示</h3>
       <p class="text-gray-700 mb-6" id="sensitivePromptText">
-        文章内含有敏感内容，如需查看请登录账号启动展示敏感内容<br>敏感内容类型:成人
+        文章内含有敏感内容，如需查看请登录账号启动展示敏感内容
       </p>
       <div class="flex justify-end">
         <button id="handleSensitivePrompt" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-accent transition-colors">
@@ -282,7 +282,7 @@
       // 已登录但未开启敏感内容显示
       else if (!showSensitive) {
         content.classList.add('content-blur');
-        promptText.textContent = '文章内含有敏感内容，如需查看请前往我 - 启动“展示敏感内容”'<br>敏感内容类型:成人;
+        promptText.textContent = '文章内含有敏感内容，如需查看请前往我 - 启动“展示敏感内容”';
         handleBtn.textContent = '前往设置';
         handleBtn.onclick = () => {
           window.location.href = 'https://aeafx.netlify.app/login';
