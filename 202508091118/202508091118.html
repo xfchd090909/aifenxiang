@@ -101,7 +101,7 @@
       </div>
       
       <div class="article-content max-w-4xl mx-auto px-6 py-12 md:px-12 md:py-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-6" id="sensitiveContent">
-        <div class="prose prose-lg max-w-none">
+        <div class="prose prose-lg max-w-none" id="articleText">
           <p class="lead text-xl text-gray-700 mb-8">
             日本网民与Grok争执事件指的是马斯克旗下X平台的人工智能助手Grok因发表不当言论，引发日本网民愤怒和抗议的事件。具体情况如下：
           </p>
@@ -274,6 +274,11 @@
         content.classList.add('content-blur');
         promptText.textContent = '文章内含有敏感内容，如需查看请登录账号启动展示敏感内容';
         handleBtn.textContent = '前往登录';
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'none';
+        articleText.style.webkitUserSelect = 'none';
+        articleText.style.mozUserSelect = 'none';
+        articleText.style.msUserSelect = 'none';
         handleBtn.onclick = () => {
           window.location.href = 'https://aeafx.netlify.app/login';
         };
@@ -284,6 +289,11 @@
         content.classList.add('content-blur');
         promptText.textContent = '文章内含有敏感内容，如需查看请前往我 - 启动“展示敏感内容”';
         handleBtn.textContent = '前往设置';
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'none';
+        articleText.style.webkitUserSelect = 'none';
+        articleText.style.mozUserSelect = 'none';
+        articleText.style.msUserSelect = 'none';
         handleBtn.onclick = () => {
         window.location.href = 'https://aeafx.netlify.app/login';
         };
@@ -292,6 +302,11 @@
       // 已登录且已开启敏感内容显示
       else {
         content.classList.remove('content-blur');
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'auto';
+        articleText.style.webkitUserSelect = 'auto';
+        articleText.style.mozUserSelect = 'auto';
+        articleText.style.msUserSelect = 'auto';
       }
     }
     
