@@ -6,6 +6,8 @@
     <title>爱分享</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Google登录SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -14,6 +16,7 @@
                         primary: '#6366F1',
                         secondary: '#EC4899',
                         accent: '#8B5CF6',
+                        google: '#4285F4' // 添加Google品牌色
                     },
                 }
             }
@@ -60,10 +63,22 @@
                     </div>
                     
                     <!-- GitHub登录按钮 -->
-                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center">
+                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center mb-3">
                         <i class="fa fa-github mr-2 text-xl"></i>
                         使用Github登录
                     </button>
+                    
+                    <!-- Google登录按钮 -->
+                    <div id="googleLogin" class="w-full">
+                        <!-- Google登录按钮将在这里渲染 -->
+                    </div>
+                    
+                    <!-- 登录方式分隔线 -->
+                    <div class="my-4 flex items-center">
+                        <div class="flex-grow h-px bg-gray-300"></div>
+                        <span class="px-3 text-gray-500 text-sm">或</span>
+                        <div class="flex-grow h-px bg-gray-300"></div>
+                    </div>
                     
                     <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
@@ -150,6 +165,8 @@
         // 配置参数
         const clientId = 'Ov23lid4wahWfAxWQJAp';
         const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
+        // Google登录配置 - 请替换为你的Google Client ID
+        const googleClientId = '447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com';
         
         // DOM元素
         const githubLoginBtn = document.getElementById('githubLogin');
@@ -181,7 +198,7 @@
         
         // 检查用户是否已登录
         function checkLoginStatus() {
-            const user = localStorage.getItem('githubUser');
+            const user = localStorage.getItem('githubUser') || localStorage.getItem('googleUser');
             const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
             
             if (user) {
@@ -189,10 +206,11 @@
                 // 显示用户信息
                 userInfo.classList.remove('hidden');
                 githubLoginBtn.classList.add('hidden');
-                userName.textContent = userData.name || userData.login;
-                userLogin.textContent = `@${userData.login}`;
-                userAvatar.src = userData.avatar_url;
-                userAvatar.alt = `${userData.login}'s avatar`;
+                document.getElementById('googleLogin').classList.add('hidden');
+                userName.textContent = userData.name || userData.login || userData.email;
+                userLogin.textContent = userData.login ? `@${userData.login}` : userData.email;
+                userAvatar.src = userData.avatar_url || userData.picture;
+                userAvatar.alt = `${userData.name || userData.login}'s avatar`;
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
@@ -201,6 +219,57 @@
                 // 显示登录按钮
                 userInfo.classList.add('hidden');
                 githubLoginBtn.classList.remove('hidden');
+                document.getElementById('googleLogin').classList.remove('hidden');
+            }
+        }
+        
+        // 初始化Google登录
+        function initGoogleLogin() {
+            google.accounts.id.initialize({
+                client_id: googleClientId,
+                callback: handleGoogleCallback,
+                ux_mode: 'popup', // 使用弹窗模式，避免页面跳转
+                auto_select: false
+            });
+            
+            // 渲染Google登录按钮
+            google.accounts.id.renderButton(
+                document.getElementById('googleLogin'),
+                { 
+                    theme: 'filled_blue',
+                    size: 'large',
+                    shape: 'rectangular',
+                    text: 'signin_with',
+                    logo_alignment: 'left',
+                    width: '100%'
+                }
+            );
+        }
+        
+        // 处理Google登录回调
+        function handleGoogleCallback(response) {
+            if (response.credential) {
+                // 解析JWT获取用户信息
+                const base64Url = response.credential.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(
+                    atob(base64)
+                        .split('')
+                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                        .join('')
+                );
+                
+                const userData = JSON.parse(jsonPayload);
+                // 存储Google用户信息
+                localStorage.setItem('googleUser', JSON.stringify({
+                    name: userData.name,
+                    email: userData.email,
+                    picture: userData.picture,
+                    provider: 'google'
+                }));
+                
+                // 刷新登录状态
+                checkLoginStatus();
             }
         }
         
@@ -257,9 +326,17 @@
         
         // 登出
         function logout() {
+            // 清除所有登录相关数据
             localStorage.removeItem('githubUser');
+            localStorage.removeItem('googleUser');
             localStorage.removeItem('githubOAuthState');
             localStorage.removeItem('showSensitiveContent');
+            
+            // 如果是Google登录，调用Google登出
+            if (window.google && window.google.accounts) {
+                google.accounts.id.disableAutoSelect();
+            }
+            
             checkLoginStatus();
             closeLogoutModalFunc();
         }
@@ -322,8 +399,17 @@
             }
         });
         
-        // 页面加载时检查登录状态
-        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLoginStatus();
+            // 初始化Google登录按钮
+            if (window.google && window.google.accounts) {
+                initGoogleLogin();
+            } else {
+                // 如果Google SDK加载延迟，重试初始化
+                setTimeout(initGoogleLogin, 1000);
+            }
+        });
     </script>
 </body>
 </html>
