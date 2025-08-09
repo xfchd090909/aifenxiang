@@ -249,7 +249,7 @@
             googleAuth = google.accounts.oauth2.initTokenClient({
                 client_id: "447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com",
                 scope: 'openid email profile',
-                callback: handleGoogleCallback, // 授权成功后的回调函数
+                callback: "https://aeafx.netlify.app/callback", // 授权成功后的回调函数
                 ux_mode: 'popup' // 使用弹窗模式
             });
             
