@@ -193,7 +193,6 @@
         // 配置参数 - 替换为你的实际客户端ID
         const clientId = 'Ov23lid4wahWfAxWQJAp';
         const redirectUri = 'https://aeafx.netlify.app/callback.html';
-        // 请替换为你的Google客户端ID
         const googleClientId = '447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com';
         
         // DOM元素
@@ -250,7 +249,7 @@
             googleAuth = google.accounts.oauth2.initTokenClient({
                 client_id: "447297904869-fr643qd13uhk99p8gte7up3kfjflrro7.apps.googleusercontent.com",
                 scope: 'openid email profile',
-                callback: "https://aeafx.netlify.app/callback.html", // 授权成功后的回调函数
+                callback: handleGoogleCallback, // 授权成功后的回调函数
                 ux_mode: 'popup' // 使用弹窗模式
             });
             
