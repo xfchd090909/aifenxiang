@@ -261,25 +261,22 @@
   <script>
     // 检查敏感内容显示权限
     function checkSensitiveContentPermission() {
-      const user = localStorage.getItem('githubUser');
+      const githubUser = localStorage.getItem('githubUser');
       const googleUser = localStorage.getItem('googleUser');
       const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
       const content = document.getElementById('sensitiveContent');
       const modal = document.getElementById('sensitivePromptModal');
-      const modalContent = document.getElementById('sensitivePromptContent');
       const promptText = document.getElementById('sensitivePromptText');
       const handleBtn = document.getElementById('handleSensitivePrompt');
       
+      // 判断是否已登录（GitHub或Google）
+      const isLoggedIn = githubUser || googleUser;
+      
       // 非登录状态
-      if (!githubUser && !googleUser) {
+      if (!isLoggedIn) {
         content.classList.add('content-blur');
-        promptText.textContent = '文章内含有敏感内容，如需查看请登录账号启动展示敏感内容';
+        promptText.textContent = '文章内含有敏感内容，如需查看请先登录账号';
         handleBtn.textContent = '前往登录';
-        const articleText = document.getElementById('articleText');
-        articleText.style.userSelect = 'none';
-        articleText.style.webkitUserSelect = 'none';
-        articleText.style.mozUserSelect = 'none';
-        articleText.style.msUserSelect = 'none';
         handleBtn.onclick = () => {
           window.location.href = 'https://aeafx.netlify.app/login';
         };
@@ -288,15 +285,10 @@
       // 已登录但未开启敏感内容显示
       else if (!showSensitive) {
         content.classList.add('content-blur');
-        promptText.textContent = '文章内含有敏感内容，如需查看请前往我 - 启动“展示敏感内容”';
+        promptText.textContent = '您已登录但未开启"展示敏感内容"选项，请在账号设置中开启';
         handleBtn.textContent = '前往设置';
-        const articleText = document.getElementById('articleText');
-        articleText.style.userSelect = 'none';
-        articleText.style.webkitUserSelect = 'none';
-        articleText.style.mozUserSelect = 'none';
-        articleText.style.msUserSelect = 'none';
         handleBtn.onclick = () => {
-        window.location.href = 'https://aeafx.netlify.app/login';
+          window.location.href = 'https://aeafx.netlify.app/login';
         };
         openSensitivePromptModal();
       }
@@ -305,9 +297,15 @@
         content.classList.remove('content-blur');
         const articleText = document.getElementById('articleText');
         articleText.style.userSelect = 'auto';
-        articleText.style.webkitUserSelect = 'auto';
-        articleText.style.mozUserSelect = 'auto';
-        articleText.style.msUserSelect = 'auto';
+      }
+      
+      // 禁用文本选择（仅当内容被模糊时）
+      if (content.classList.contains('content-blur')) {
+        const articleText = document.getElementById('articleText');
+        articleText.style.userSelect = 'none';
+        articleText.style.webkitUserSelect = 'none';
+        articleText.style.mozUserSelect = 'none';
+        articleText.style.msUserSelect = 'none';
       }
     }
     
