@@ -6,8 +6,6 @@
     <title>爱分享</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- 引入Google登录SDK -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -16,7 +14,6 @@
                         primary: '#6366F1',
                         secondary: '#EC4899',
                         accent: '#8B5CF6',
-                        google: '#4285F4' // 添加Google品牌色
                     },
                 }
             }
@@ -63,31 +60,10 @@
                     </div>
                     
                     <!-- GitHub登录按钮 -->
-                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center mb-3">
+                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center">
                         <i class="fa fa-github mr-2 text-xl"></i>
                         使用Github登录
                     </button>
-                    
-                    <!-- Google登录按钮 -->
-                    <div id="googleLogin" class="w-full">
-                        <div class="g_id_signin" 
-                             data-client_id="447297904869-ms92nvipnqpufs2n4kiee4p8s0bjre7k.apps.googleusercontent.com"
-                             data-context="signin"
-                             data-ux_mode="redirect"
-                             data-login_uri="https://aeafx.netlify.app/callback.html"
-                             data-auto_prompt="false"
-                             data-width="100%"
-                             data-type="standard"
-                             data-size="large">
-                        </div>
-                    </div>
-                    
-                    <!-- 登录方式分隔线 -->
-                    <div class="my-4 flex items-center">
-                        <div class="flex-grow h-px bg-gray-300"></div>
-                        <span class="px-3 text-gray-500 text-sm">或</span>
-                        <div class="flex-grow h-px bg-gray-300"></div>
-                    </div>
                     
                     <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
@@ -173,12 +149,10 @@
     <script>
         // 配置参数
         const clientId = 'Ov23lid4wahWfAxWQJAp';
-        const googleClientId = '447297904869-ms92nvipnqpufs2n4kiee4p8s0bjre7k.apps.googleusercontent.com';
         const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
         
         // DOM元素
         const githubLoginBtn = document.getElementById('githubLogin');
-        const googleLoginContainer = document.getElementById('googleLogin');
         const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
@@ -207,7 +181,7 @@
         
         // 检查用户是否已登录
         function checkLoginStatus() {
-            const user = localStorage.getItem('user'); // 修改为通用的user存储键
+            const user = localStorage.getItem('githubUser');
             const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
             
             if (user) {
@@ -215,11 +189,10 @@
                 // 显示用户信息
                 userInfo.classList.remove('hidden');
                 githubLoginBtn.classList.add('hidden');
-                googleLoginContainer.classList.add('hidden');
-                userName.textContent = userData.name || userData.login || userData.email;
-                userLogin.textContent = userData.login ? `@${userData.login}` : userData.email;
-                userAvatar.src = userData.avatar_url || userData.picture;
-                userAvatar.alt = `${userData.login || userData.email}'s avatar`;
+                userName.textContent = userData.name || userData.login;
+                userLogin.textContent = `@${userData.login}`;
+                userAvatar.src = userData.avatar_url;
+                userAvatar.alt = `${userData.login}'s avatar`;
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
@@ -228,7 +201,6 @@
                 // 显示登录按钮
                 userInfo.classList.add('hidden');
                 githubLoginBtn.classList.remove('hidden');
-                googleLoginContainer.classList.remove('hidden');
             }
         }
         
@@ -285,9 +257,8 @@
         
         // 登出
         function logout() {
-            localStorage.removeItem('user'); // 修改为通用的user存储键
+            localStorage.removeItem('githubUser');
             localStorage.removeItem('githubOAuthState');
-            localStorage.removeItem('googleOAuthState');
             localStorage.removeItem('showSensitiveContent');
             checkLoginStatus();
             closeLogoutModalFunc();
