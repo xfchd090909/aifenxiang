@@ -285,7 +285,7 @@
       // 已登录但未开启敏感内容显示
       else if (!showSensitive) {
         content.classList.add('content-blur');
-        promptText.textContent = '您已登录但未开启"展示敏感内容"选项，请在账号设置中开启';
+        promptText.textContent = '文章内含有敏感内容，如需查看请先点击"前往设置"开启"展示敏感内容"';
         handleBtn.textContent = '前往设置';
         handleBtn.onclick = () => {
           window.location.href = 'https://aeafx.netlify.app/login';
