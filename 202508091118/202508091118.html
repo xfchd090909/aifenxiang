@@ -262,6 +262,7 @@
     // 检查敏感内容显示权限
     function checkSensitiveContentPermission() {
       const user = localStorage.getItem('githubUser');
+      const googleUser = localStorage.getItem('googleUser');
       const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
       const content = document.getElementById('sensitiveContent');
       const modal = document.getElementById('sensitivePromptModal');
@@ -270,7 +271,7 @@
       const handleBtn = document.getElementById('handleSensitivePrompt');
       
       // 非登录状态
-      if (!user) {
+      if (!githubUser && !googleUser) {
         content.classList.add('content-blur');
         promptText.textContent = '文章内含有敏感内容，如需查看请登录账号启动展示敏感内容';
         handleBtn.textContent = '前往登录';
