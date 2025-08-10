@@ -44,36 +44,31 @@
 
         /* 优化的Google图标样式 */
         .google-icon {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
             position: relative;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
         }
         .google-icon::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: conic-gradient(
-                from -45deg,
-                #4285F4 90deg,
-                #34A853 90deg 180deg,
-                #FBBC05 180deg 270deg,
-                #EA4335 270deg
-            );
-            border-radius: 50%;
-            transform: rotate(5deg);
-        }
-        .google-icon::after {
-            content: "";
+            content: "G";
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 60%;
-            height: 60%;
-            background: white;
-            border-radius: 50%;
             transform: translate(-50%, -50%);
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 18px;
+            background: conic-gradient(
+                from -45deg,
+                #4285F4 0deg 90deg,
+                #EA4335 90deg 180deg,
+                #FBBC05 180deg 270deg,
+                #34A853 270deg 360deg
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: none;
         }
     </style>
 </head>
