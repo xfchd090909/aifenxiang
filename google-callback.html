@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google callback</title>
+</head>
+<body>
+    <script>
+        async function handleGoogleCallback() {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            const state = params.get('state');
+            const storedState = localStorage.getItem('googleOAuthState');
+            
+            // 验证state防止CSRF攻击
+            if (state !== storedState) {
+                alert('登录验证失败，请重试');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                // 这里需要后端服务来交换token，前端直接调用会有跨域问题
+                // 替换为你的后端服务地址
+                const response = await fetch('https://你的后端服务地址/google-auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code, redirectUri: 'https://aeafx.netlify.app/google-callback.html' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.user) {
+                    // 存储用户信息
+                    localStorage.setItem('googleUser', JSON.stringify({
+                        name: data.user.name,
+                        email: data.user.email,
+                        picture: data.user.picture,
+                        // 存储其他需要的用户信息
+                    }));
+                    
+                    // 重定向回登录页
+                    window.location.href = 'login.html';
+                } else {
+                    alert('登录失败: ' + (data.message || '未知错误'));
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('登录过程出错:', error);
+                alert('登录过程出错，请重试');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // 页面加载时处理回调
+        handleGoogleCallback();
+    </script>
+</body>
+</html>
