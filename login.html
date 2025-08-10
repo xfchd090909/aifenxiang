@@ -64,6 +64,12 @@
                         <i class="fa fa-github mr-2 text-xl"></i>
                         使用Github登录
                     </button>
+
+                    <!-- 在GitHub登录按钮下方添加Google登录按钮 -->
+                    <button id="googleLogin" class="w-full mt-4 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center">
+                        <i class="fa fa-google mr-2 text-xl text-red-500"></i>
+                        使用Google登录
+                    </button>
                     
                     <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
@@ -150,9 +156,12 @@
         // 配置参数
         const clientId = 'Ov23lid4wahWfAxWQJAp';
         const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
+        const googleClientId = '447297904869-ms92nvipnqpufs2n4kiee4p8s0bjre7k.apps.googleusercontent.com'; // 替换为实际的Google客户端ID
+        const googleRedirectUri = 'https://aeafx.netlify.app/google-callback.html'; // Google回调地址
         
         // DOM元素
         const githubLoginBtn = document.getElementById('githubLogin');
+        const googleLoginBtn = document.getElementById('googleLogin');
         const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
@@ -181,18 +190,47 @@
         
         // 检查用户是否已登录
         function checkLoginStatus() {
-            const user = localStorage.getItem('githubUser');
+    // 先检查GitHub登录
+            let user = localStorage.getItem('githubUser');
+            let userType = 'github';
+    
+    // 如果没有GitHub登录，检查Google登录
+            if (!user) {
+                user = localStorage.getItem('googleUser');
+                userType = 'google';
+            }
+
             const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
-            
+    
             if (user) {
                 const userData = JSON.parse(user);
-                // 显示用户信息
+        // 显示用户信息
                 userInfo.classList.remove('hidden');
                 githubLoginBtn.classList.add('hidden');
-                userName.textContent = userData.name || userData.login;
-                userLogin.textContent = `@${userData.login}`;
-                userAvatar.src = userData.avatar_url;
-                userAvatar.alt = `${userData.login}'s avatar`;
+                googleLoginBtn.classList.add('hidden'); // 隐藏Google登录按钮
+        
+        // 根据不同登录类型显示不同信息
+                if (userType === 'github') {
+                    userName.textContent = userData.name || userData.login;
+                    userLogin.textContent = `@${userData.login}`;
+                    userAvatar.src = userData.avatar_url;
+                } else {
+                    userName.textContent = userData.name;
+                    userLogin.textContent = userData.email;
+                    userAvatar.src = userData.picture;
+                }
+                userAvatar.alt = `${userData.name || userData.login || userData.email}'s avatar`;
+        
+        // 设置敏感内容开关状态
+                sensitiveContentToggle.checked = showSensitive;
+                currentToggleState = showSensitive;
+            } else {
+        // 显示登录按钮
+                userInfo.classList.add('hidden');
+                githubLoginBtn.classList.remove('hidden');
+                googleLoginBtn.classList.remove('hidden'); // 显示Google登录按钮
+            }
+        }  
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
@@ -254,11 +292,27 @@
             const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=user`;
             window.location.href = authUrl;
         }
-        
+
+        function loginWithGoogle() {
+        // 生成随机state参数用于CSRF保护
+            const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('googleOAuthState', state);
+
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+                `client_id=${googleClientId}&` +
+                `redirect_uri=${encodeURIComponent(googleRedirectUri)}&` +
+                `response_type=code&` +
+                `scope=openid%20profile%20email&` +
+                `state=${state}`;
+
+            window.location.href = authUrl;
+        }
         // 登出
         function logout() {
             localStorage.removeItem('githubUser');
+            localStorage.removeItem('googleUser');
             localStorage.removeItem('githubOAuthState');
+            localStorage.removeItem('googleOAuthState');
             localStorage.removeItem('showSensitiveContent');
             checkLoginStatus();
             closeLogoutModalFunc();
@@ -295,6 +349,7 @@
         
         // 事件监听
         githubLoginBtn.addEventListener('click', loginWithGitHub);
+        googleLoginBtn.addEventListener('click', loginWithGoogle);
         logoutBtn.addEventListener('click', openLogoutModal); // 点击退出按钮先打开弹窗
         sensitiveContentToggle.addEventListener('change', handleSensitiveToggleChange);
         
