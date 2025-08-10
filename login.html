@@ -158,9 +158,9 @@
         const googleRedirectUri = 'https://aeafx.netlify.app/google-callback.html'; // Google回调地址
         
         // DOM元素
-        const githubLogin = document.getElementById('githubLogin');
-        const googleLogin = document.getElementById('googleLogin');
-        const logout = document.getElementById('logoutBtn');
+        const githubLoginBtn = document.getElementById('githubLogin');
+        const googleLoginBtn = document.getElementById('googleLogin');
+        const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
         const userLogin = document.getElementById('userLogin');
@@ -189,46 +189,46 @@
         // 检查用户是否已登录
         function checkLoginStatus() {
     // 先检查GitHub登录
-            let user = localStorage.getItem('githubUser');
-            let userType = 'github';
-    
-    // 如果没有GitHub登录，检查Google登录
-            if (!user) {
-                user = localStorage.getItem('googleUser');
-                userType = 'google';
-            }
+    let user = localStorage.getItem('githubUser');
+    let userType = 'github';
 
-            const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
-    
-            if (user) {
-                const userData = JSON.parse(user);
+    // 如果没有GitHub登录，检查Google登录
+    if (!user) {
+        user = localStorage.getItem('googleUser');
+        userType = 'google';
+    }
+
+    const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
+
+    if (user) {
+        const userData = JSON.parse(user);
         // 显示用户信息
-                userInfo.classList.remove('hidden');
-                githubLoginBtn.classList.add('hidden');
-                googleLoginBtn.classList.add('hidden'); // 隐藏Google登录按钮
-        
+        userInfo.classList.remove('hidden');
+        githubLoginBtn.classList.add('hidden');
+        googleLoginBtn.classList.add('hidden'); // 隐藏Google登录按钮
+
         // 根据不同登录类型显示不同信息
-                if (userType === 'github') {
-                    userName.textContent = userData.name || userData.login;
-                    userLogin.textContent = `@${userData.login}`;
-                    userAvatar.src = userData.avatar_url;
-                } else {
-                    userName.textContent = userData.name;
-                    userLogin.textContent = userData.email;
-                    userAvatar.src = userData.picture;
-                }
-                userAvatar.alt = `${userData.name || userData.login || userData.email}'s avatar`;
-        
+        if (userType === 'github') {
+            userName.textContent = userData.name || userData.login;
+            userLogin.textContent = `@${userData.login}`;
+            userAvatar.src = userData.avatar_url;
+        } else {
+            userName.textContent = userData.name;
+            userLogin.textContent = userData.email;
+            userAvatar.src = userData.picture;
+        }
+        userAvatar.alt = `${userData.name || userData.login || userData.email}'s avatar`;
+
         // 设置敏感内容开关状态
-                sensitiveContentToggle.checked = showSensitive;
-                currentToggleState = showSensitive;
-            } else {
+        sensitiveContentToggle.checked = showSensitive;
+        currentToggleState = showSensitive;
+    } else {
         // 显示登录按钮
-                userInfo.classList.add('hidden');
-                githubLoginBtn.classList.remove('hidden');
-                googleLoginBtn.classList.remove('hidden'); // 显示Google登录按钮
-            }
-        }  
+        userInfo.classList.add('hidden');
+        githubLoginBtn.classList.remove('hidden');
+        googleLoginBtn.classList.remove('hidden'); // 显示Google登录按钮
+    }
+}  
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
