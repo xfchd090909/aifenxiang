@@ -296,20 +296,44 @@
         }
         
         // 发起Google登录
-        function loginWithGoogle() {
-            const client = google.accounts.oauth2.initCodeClient({
-                client_id: googleClientId,
-                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-                redirect_uri: redirectUri,
-                callback: (response) => {
-                    // 将授权码发送到服务器或直接处理
-                    handleGoogleAuthResponse(response.code);
-                },
-                error_callback: (error) => {
-                    console.error('Google登录错误:', error);
-                }
-            });
-            client.requestCode();
+        function initializeGoogleLogin() {
+            // 检查是否在移动设备上
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // 移动端使用更简单的登录流程
+                googleLoginBtn.addEventListener('click', () => {
+                    const client = google.accounts.oauth2.initTokenClient({
+                        client_id: googleClientId,
+                        scope: 'email profile',
+                        callback: (tokenResponse) => {
+                            if (tokenResponse && tokenResponse.access_token) {
+                                fetchGoogleUserInfo(tokenResponse.access_token);
+                            }
+                        },
+                        error_callback: (error) => {
+                            console.error('Google登录错误:', error);
+                            alert('登录失败，请重试');
+                        }
+                    });
+                    client.requestAccessToken();
+                });
+            } else {
+                // 桌面端保持原有流程
+                googleLoginBtn.addEventListener('click', () => {
+                    const client = google.accounts.oauth2.initCodeClient({
+                        client_id: googleClientId,
+                        scope: 'email profile',
+                        callback: (response) => {
+                            handleGoogleAuthResponse(response.code);
+                        },
+                        error_callback: (error) => {
+                            console.error('Google登录错误:', error);
+                        }
+                    });
+                    client.requestCode();
+                });
+            }
         }
         
         // 处理Google授权响应
