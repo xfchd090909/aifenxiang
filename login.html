@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>爱分享</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
@@ -60,10 +61,16 @@
                     </div>
                     
                     <!-- GitHub登录按钮 -->
-                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center">
+                    <button id="githubLogin" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center mb-3">
                         <i class="fa fa-github mr-2 text-xl"></i>
                         使用Github登录
                     </button>
+                    
+                    <!-- Google登录按钮 -->
+                    <div id="googleLogin" class="w-full bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-md transition-colors flex items-center justify-center cursor-pointer mb-6">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" class="w-5 h-5 mr-2">
+                        使用Google登录
+                    </div>
                     
                     <!-- 用户信息显示区域 (登录后显示) -->
                     <div id="userInfo" class="mt-6 hidden">
@@ -148,11 +155,13 @@
 
     <script>
         // 配置参数
-        const clientId = 'Ov23lid4wahWfAxWQJAp';
+        const githubClientId = 'Ov23lid4wahWfAxWQJAp';
+        const googleClientId = '447297904869-ms92nvipnqpufs2n4kiee4p8s0bjre7k.apps.googleusercontent.com';
         const redirectUri = 'https://aeafx.netlify.app/callback.html'; // 替换为你的实际回调地址
         
         // DOM元素
         const githubLoginBtn = document.getElementById('githubLogin');
+        const googleLoginBtn = document.getElementById('googleLogin');
         const logoutBtn = document.getElementById('logoutBtn');
         const userInfo = document.getElementById('userInfo');
         const userName = document.getElementById('userName');
@@ -181,7 +190,7 @@
         
         // 检查用户是否已登录
         function checkLoginStatus() {
-            const user = localStorage.getItem('githubUser');
+            const user = localStorage.getItem('githubUser') || localStorage.getItem('googleUser');
             const showSensitive = localStorage.getItem('showSensitiveContent') === 'true';
             
             if (user) {
@@ -189,10 +198,11 @@
                 // 显示用户信息
                 userInfo.classList.remove('hidden');
                 githubLoginBtn.classList.add('hidden');
-                userName.textContent = userData.name || userData.login;
-                userLogin.textContent = `@${userData.login}`;
-                userAvatar.src = userData.avatar_url;
-                userAvatar.alt = `${userData.login}'s avatar`;
+                googleLoginBtn.classList.add('hidden');
+                userName.textContent = userData.name || userData.login || userData.email;
+                userLogin.textContent = userData.login ? `@${userData.login}` : userData.email;
+                userAvatar.src = userData.avatar_url || userData.picture;
+                userAvatar.alt = (userData.login || userData.email) + "'s avatar";
                 
                 // 设置敏感内容开关状态
                 sensitiveContentToggle.checked = showSensitive;
@@ -201,6 +211,7 @@
                 // 显示登录按钮
                 userInfo.classList.add('hidden');
                 githubLoginBtn.classList.remove('hidden');
+                googleLoginBtn.classList.remove('hidden');
             }
         }
         
@@ -251,13 +262,76 @@
             localStorage.setItem('githubOAuthState', state);
             
             // 构建授权URL
-            const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=user`;
+            const authUrl = `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=user`;
             window.location.href = authUrl;
+        }
+        
+        // 发起Google登录
+        function loginWithGoogle() {
+            const client = google.accounts.oauth2.initCodeClient({
+                client_id: googleClientId,
+                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+                redirect_uri: redirectUri,
+                callback: (response) => {
+                    // 将授权码发送到服务器或直接处理
+                    handleGoogleAuthResponse(response.code);
+                },
+                error_callback: (error) => {
+                    console.error('Google登录错误:', error);
+                }
+            });
+            client.requestCode();
+        }
+        
+        // 处理Google授权响应
+        function handleGoogleAuthResponse(code) {
+            // 在实际应用中，这里应该将code发送到你的后端服务器进行交换token
+            // 这里为了演示，我们直接使用Google的JS客户端获取用户信息
+            
+            // 使用Google的token client获取token
+            const client = google.accounts.oauth2.initTokenClient({
+                client_id: googleClientId,
+                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+                callback: (tokenResponse) => {
+                    if (tokenResponse && tokenResponse.access_token) {
+                        fetchGoogleUserInfo(tokenResponse.access_token);
+                    }
+                },
+                error_callback: (error) => {
+                    console.error('Google token获取错误:', error);
+                }
+            });
+            client.requestAccessToken({code});
+        }
+        
+        // 获取Google用户信息
+        function fetchGoogleUserInfo(accessToken) {
+            fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 保存用户信息
+                const userData = {
+                    name: data.name,
+                    email: data.email,
+                    picture: data.picture,
+                    provider: 'google'
+                };
+                localStorage.setItem('googleUser', JSON.stringify(userData));
+                checkLoginStatus();
+            })
+            .catch(error => {
+                console.error('获取Google用户信息失败:', error);
+            });
         }
         
         // 登出
         function logout() {
             localStorage.removeItem('githubUser');
+            localStorage.removeItem('googleUser');
             localStorage.removeItem('githubOAuthState');
             localStorage.removeItem('showSensitiveContent');
             checkLoginStatus();
@@ -295,6 +369,7 @@
         
         // 事件监听
         githubLoginBtn.addEventListener('click', loginWithGitHub);
+        googleLoginBtn.addEventListener('click', loginWithGoogle);
         logoutBtn.addEventListener('click', openLogoutModal); // 点击退出按钮先打开弹窗
         sensitiveContentToggle.addEventListener('change', handleSensitiveToggleChange);
         
