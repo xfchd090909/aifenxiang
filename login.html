@@ -298,7 +298,14 @@
         }
         
         // 发起Google登录
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
         function loginWithGoogle() {
+            if (isMobileDevice()) {
+                alert('由于技术限制问题，移动端暂不开放Google登录方式');
+                return;
+            }
             const client = google.accounts.oauth2.initCodeClient({
                 client_id: googleClientId,
                 scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
