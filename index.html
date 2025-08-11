@@ -74,24 +74,21 @@
 </head>
 <body class="min-h-screen bg-gradient-dynamic text-gray-100 font-sans">
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-blur bg-white/10">
-  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <a href="https://aeafx.netlify.app" class="text-white/70 hover:text-white transition-colors mr-4">
+  <div class="container mx-auto px-4 py-3 flex items-center">
+    <div class="flex items-center space-x-3 flex-1">
+      <a href="https://aeafx.netlify.app" class="text-white/70 hover:text-white transition-colors">
         <i class="fa fa-home fa-lg"></i>
       </a>
-    </div>
-
-    <div class="flex items-center space-x-4">
-      <div class="relative w-64 md:w-80">
-        <input type="text" id="searchInput" placeholder="搜索文章、标签..." class="w-full py-2 px-4 pr-10 rounded-full bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm transition-all">
-        <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors">
-          <i class="fa fa-search"></i>
-        </button>
-      </div>
-      
       <a href="https://aeafx.netlify.app/login" class="inline-flex items-center px-3 py-1 bg-primary text-white rounded-md hover:bg-accent transition-colors">
         <i class="fa fa-user mr-1"></i> 我
       </a>
+    </div>
+
+    <div class="relative w-64 md:w-80">
+      <input type="text" id="searchInput" placeholder="搜索文章、标签..." class="w-full py-2 px-4 pr-10 rounded-full bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm transition-all">
+      <button id="searchBtn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors">
+        <i class="fa fa-search"></i>
+      </button>
     </div>
   </div>
 </header>
@@ -338,6 +335,7 @@
   </script>
 </body>
 </html>
+
 
 
 
