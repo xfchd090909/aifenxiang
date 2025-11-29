@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Verification</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+    <h3 id="verifyTitle">Please complete the robot verification.</h3> <!-- 可根据语言动态修改 -->
+    <div class="cf-turnstile" 
+         data-sitekey="0x4AAAAAABuV_6cPPwlj1VPo"
+         data-callback="onVerifySuccess"
+         data-theme="light">
+    </div>
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <script>
+        // 1. 检测浏览器语言（核心代码）
+        function getBrowserLanguage() {
+            // 优先获取浏览器首选语言（返回格式如 "zh-CN"、"en-US"、"ja-JP"）
+            const lang = navigator.language || navigator.userLanguage;
+            // 可选：简化为语言代码（如 "zh"、"en"、"ja"），忽略地区后缀
+            const simpleLang = lang.split('-')[0]; 
+            return {
+                fullLang: lang,       // 完整语言（如 "zh-CN"）
+                simpleLang: simpleLang // 简化语言（如 "zh"）
+            };
+        }
+
+        // 2. 执行检测并打印结果（控制台可查看）
+        const browserLang = getBrowserLanguage();
+        console.log("浏览器完整语言：", browserLang.fullLang);
+        console.log("简化语言代码：", browserLang.simpleLang);
+
+        // 3. （可选）根据语言动态修改页面文字（适配多语言）
+        const verifyTitle = document.getElementById('verifyTitle');
+        const resultEl = document.getElementById('result');
+        switch (browserLang.simpleLang) {
+            case 'zh':
+                verifyTitle.textContent = "请完成人机验证";
+                resultEl.textContent = "请点击按钮完成验证...";
+                break;
+            case 'en':
+                verifyTitle.textContent = "Please complete the robot verification.";
+                resultEl.textContent = "Please click the button to complete the verification....";
+                break;
+            case 'ja':
+                verifyTitle.textContent = "ロボットの検証を完了してください";
+                resultEl.textContent = "ボタンをクリックして検証を完了してください...";
+                break;
+            case 'ko':
+                verifyTitle.textContent = "로봇 검증을 완료하세요";
+                resultEl.textContent = "확인을 완료하려면 버튼을 클릭하십시오...";
+                break;
+            case 'th':
+                verifyTitle.textContent = "กรุณาตรวจสอบหุ่นยนต์ให้สมบูรณ์";
+                resultEl.textContent = "โปรดคลิกปุ่มเพื่อให้การตรวจสอบหุ่นยนต์เสร็จสมบูรณ์...";
+                break;
+            // 可添加更多语言适配
+            default:
+                verifyTitle.textContent = "Please complete the human verification";
+                resultEl.textContent = "Please click the button below to verify...";
+        }
+
+        // 4. 原有验证成功回调（保持不变）
+        async function onVerifySuccess(token) {
+            resultEl.textContent = browserLang.simpleLang === 'zh' ? "正在验证..." : "Verifying...";
+            try {
+                const response = await fetch('/.netlify/functions/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    resultEl.textContent = browserLang.simpleLang === 'zh' ? "验证通过！后端已确认" : "Verification passed! Backend confirmed";
+                    resultEl.style.color = "green";
+                } else {
+                    const errorMsg = data.error || data['error-codes']?.join(', ') || 'Unknown error';
+                    resultEl.textContent = (browserLang.simpleLang === 'zh' ? "验证失败：" : "Verification failed: ") + errorMsg;
+                    resultEl.style.color = "red";
+                }
+            } catch (err) {
+                resultEl.textContent = browserLang.simpleLang === 'zh' ? "网络错误，验证失败" : "Network error, verification failed";
+                resultEl.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
