@@ -7,6 +7,41 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <script>
+        // 核心：检查人机验证状态
+      function checkVerification() {
+          const verification = localStorage.getItem('human_verified');
+          const expireTime = localStorage.getItem('verification_expire');
+          const currentTime = new Date().getTime();
+          const currentUrl = window.location.href;
+
+            // 未验证或已过期 → 跳转到验证页面
+          if (!verification || !expireTime || currentTime > parseInt(expireTime)) {
+              localStorage.setItem('redirect_after_verify', currentUrl);
+              window.location.href = 'https://aeafx.netlify.app/rv.html';
+          }
+      }
+
+        // 定时检查：页面停留时过期自动重新验证
+      function startVerificationTimer() {
+          setInterval(() => {
+              const expireTime = localStorage.getItem('verification_expire');
+              const currentTime = new Date().getTime();
+                
+              if (expireTime && currentTime > parseInt(expireTime)) {
+                  localStorage.removeItem('human_verified');
+                  localStorage.removeItem('verification_expire');
+                  window.location.reload(); // 刷新后自动跳验证
+              }
+          }, 60000); // 每分钟检查一次
+       }
+
+        // 页面加载时执行检查
+       document.addEventListener('DOMContentLoaded', () => {
+           checkVerification();
+           startVerificationTimer();
+      });
+  </script>
+  <script>
     tailwind.config = {
       theme: {
         extend: {
@@ -374,6 +409,7 @@
   </script>
 </body>
 </html>
+
 
 
 
