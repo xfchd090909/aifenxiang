@@ -2,8 +2,8 @@ exports.handler = async (event) => {
     const { code } = JSON.parse(event.body);
     
     // 配置参数
-    const clientId = 'Ov23lid4wahWfAxWQJAp';
-    const clientSecret = '1f6ffd675faec7ee90fbb1aa5c8266d22d3a524e';
+    const clientId = process.env.GITHUB_CLIENT_ID;
+    const clientSecret = process.env.GITHUB_CLIENT_SECRET;
     const redirectUri = 'https://aeafx.netlify.app/callback.html';
     
     try {
