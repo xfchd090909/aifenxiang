@@ -65,8 +65,6 @@
         receiveVerificationData(); // 第一步：接收rv.html传递的验证数据并更新存储
         checkVerification();       // 第二步：检查验证状态（此时已同步最新数据）
         startVerificationTimer();  // 第三步：启动定时过期检查
-        // 在验证通过且未跳转的情况下显示停止更新通知弹窗
-        showStopUpdateModal();
     });
   </script>
   <script>
@@ -356,27 +354,8 @@
     </div>
   </div>
 
-  <!-- 停止更新通知弹窗 -->
-  <div id="stopUpdateModal" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="absolute inset-0 bg-black/50" id="stopModalOverlay"></div>
-    <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 transform origin-center opacity-0 perspective-800" id="stopModalContent">
-      <button id="closeStopModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-        <i class="fa fa-times"></i>
-      </button>
-      <h3 class="text-xl font-bold text-gray-800 mb-4">该网站已停止更新</h3>
-      <div class="space-y-3 text-gray-700 mb-6">
-        <p>由于网站技术迭代及代码修正成本过高等问题，我们在2026年3月23日决定，停止对该网站文章更新及安全防护，此次决定不会注销此网站，你也可以继续浏览，请转至我们的新主页，获取更多资讯。</p>
-        <p class="text-sm text-gray-500 italic">—— AE Studio 团队致所有用户</p>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <button id="stayBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">继续停留该网页</button>
-        <button id="moveBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-accent transition-colors">移步到更新网页</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // 原有邮箱弹窗逻辑
+
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 50) {
@@ -387,6 +366,7 @@
         header.classList.add('bg-white/10');
       }
     });
+
 
     const emailBtn = document.getElementById('emailBtn');
     const emailModal = document.getElementById('emailModal');
@@ -415,47 +395,95 @@
     emailBtn.addEventListener('click', openModal);
     closeModal.addEventListener('click', closeModalFunc);
     modalOverlay.addEventListener('click', closeModalFunc);
+
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !emailModal.classList.contains('opacity-0')) {
         closeModalFunc();
       }
     });
 
-    // 停止更新弹窗逻辑
-    const stopModal = document.getElementById('stopUpdateModal');
-    const stopModalContent = document.getElementById('stopModalContent');
-    const closeStopModal = document.getElementById('closeStopModal');
-    const stopModalOverlay = document.getElementById('stopModalOverlay');
-    const stayBtn = document.getElementById('stayBtn');
-    const moveBtn = document.getElementById('moveBtn');
 
-    function showStopUpdateModal() {
-      // 避免重复显示，如果已经显示则不再处理
-      if (!stopModal.classList.contains('opacity-0')) return;
-      stopModal.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        stopModalContent.classList.add('flip-in');
-        stopModalContent.classList.remove('opacity-0');
-      }, 100);
-      document.body.style.overflow = 'hidden';
-    }
-
-    function hideStopModal() {
-      stopModalContent.classList.add('flip-out');
-      setTimeout(() => {
-        stopModal.classList.add('opacity-0', 'pointer-events-none');
-        stopModalContent.classList.remove('flip-in', 'flip-out');
-        document.body.style.overflow = '';
-      }, 600);
-    }
-
-    // 停留按钮：关闭弹窗
-    stayBtn.addEventListener('click', hideStopModal);
-    // 移步按钮：跳转新主页
-    moveBtn.addEventListener('click', () => {
-      window.open('https://aeblog.netlify.app', '_blank');
-      // 可选：同时关闭弹窗
-      hideStopModal();
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const mainContent = document.getElementById('mainContent');
+    const originalContent = mainContent.innerHTML;
+    let articlesData = []; 
+    
+ 
+    document.addEventListener('DOMContentLoaded', function() {
+      const articleItems = document.querySelectorAll('.article-item');
+      articleItems.forEach(item => {
+        articlesData.push(item.outerHTML);
+      });
     });
-    closeStopModal.addEventListener('click', hideStopModal);
-  
+
+
+    let searchTimeout;
+    
+
+    function performSearch() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const keyword = searchInput.value.trim().toLowerCase();
+        
+        if (keyword === '') {
+
+          mainContent.innerHTML = originalContent;
+          return;
+        }
+        
+
+        mainContent.innerHTML = `
+          <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 text-center text-shadow tracking-tight">
+            爱分享
+          </h1>
+          <p class="text-xl text-white/80 mb-8 text-center max-w-2xl">
+            搜索结果
+          </p>
+        `;
+        
+        let hasResults = false;
+        
+
+        articlesData.forEach(articleHTML => {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = articleHTML;
+          const article = tempDiv.querySelector('.article-item');
+          
+          const title = article.querySelector('h2').textContent.toLowerCase();
+          const content = article.querySelector('p').textContent.toLowerCase();
+          
+          if (title.includes(keyword) || content.includes(keyword)) {
+            mainContent.appendChild(article);
+            hasResults = true;
+          }
+        });
+        
+        if (!hasResults) {
+          mainContent.innerHTML += `
+            <div class="w-full max-w-3xl mx-4 bg-white/10 backdrop-blur-md rounded-xl p-6 md:p-8 border border-white/20 shadow-lg text-center">
+              <i class="fa fa-search fa-4x mb-4 text-white/60"></i>
+              <h3 class="text-xl font-semibold mb-2">没有找到匹配的结果</h3>
+              <p class="text-white/70">请尝试使用不同的关键词或检查拼写</p>
+            </div>
+          `;
+        }
+      }, 300); 
+    }
+
+
+    searchInput.addEventListener('input', performSearch);
+
+
+    searchBtn.addEventListener('click', performSearch);
+
+
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  </script>
+</body>
+</html>
